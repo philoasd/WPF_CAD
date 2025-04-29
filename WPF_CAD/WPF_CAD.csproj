@@ -28,8 +28,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Modes\" />
-  </ItemGroup>
-
 </Project>

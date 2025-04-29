@@ -12,12 +12,7 @@
         <ViewModes:MainWindowViewMode/>
     </Window.DataContext>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="8*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
-
-        <Grid Grid.Column="0">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
@@ -38,20 +33,36 @@
                 </Menu>
             </materialDesign:Card>
 
-            <ToolBarTray Grid.Row="2">
-                <ToolBar ClipToBounds="False" Style="{StaticResource MaterialDesignToolBar}">
-                    <Button Content="{materialDesign:PackIcon Kind=ArrowTopLeftThin}" ToolTip="Select the drawing"/>
-                    <Button Content="{materialDesign:PackIcon Kind=ChartLineVariant}" ToolTip="draw the line"/>
-                    <Button Content="{materialDesign:PackIcon Kind=RectangleOutline}" ToolTip="draw the rectangle"/>
-                    <Button Content="{materialDesign:PackIcon Kind=EllipseOutline}" ToolTip="draw the ellipse"/>
-                    <Button Content="{materialDesign:PackIcon Kind=FormatFont}" ToolTip="draw the font"/>
-                    <Button Content="{materialDesign:PackIcon Kind=Barcode}" ToolTip="draw the barcode"/>
-                    <Button Content="{materialDesign:PackIcon Kind=FileImport}" ToolTip="import"/>
-                </ToolBar>
-            </ToolBarTray>
-        </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="1">
+                <StackPanel Orientation="Vertical" Grid.Column="1" Margin="5,5,5,5">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Auto Mode:" VerticalContentAlignment="Center"/>
+                        <ToggleButton IsChecked="{Binding IsAutoMode}" Style="{StaticResource MaterialDesignSwitchSecondaryToggleButton}" ToolTip="MaterialDesignSwitchSecondaryToggleButton"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="2">
+                <ToolBarTray>
+                    <ToolBar ClipToBounds="False" Style="{StaticResource MaterialDesignToolBar}">
+                        <Button Content="{materialDesign:PackIcon Kind=ArrowTopLeftThin}" ToolTip="Select the drawing"/>
+                        <Button Content="{materialDesign:PackIcon Kind=ChartLineVariant}" ToolTip="draw the line"/>
+                        <Button Content="{materialDesign:PackIcon Kind=RectangleOutline}" ToolTip="draw the rectangle"/>
+                        <Button Content="{materialDesign:PackIcon Kind=EllipseOutline}" ToolTip="draw the ellipse"/>
+                        <Button Content="{materialDesign:PackIcon Kind=FormatFont}" ToolTip="draw the font"/>
+                        <Button Content="{materialDesign:PackIcon Kind=Barcode}" ToolTip="draw the barcode"/>
+                        <Button Content="{materialDesign:PackIcon Kind=FileImport}" ToolTip="import"/>
+                    </ToolBar>
+                </ToolBarTray>
+
+                <Label Content="{Binding Status}" Margin="5,0,5,0"/>
+                <Label Content="{Binding DataTime}" Margin="5,0,5,0" VerticalContentAlignment="Center"/>
+            </StackPanel>
 
         </Grid>
     </Grid>

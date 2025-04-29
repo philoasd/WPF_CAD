@@ -4,18 +4,25 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
+using WPF_CAD.Modes;
 using WPF_CAD.Utils;
 
 namespace WPF_CAD.ViewModes
 {
     public class MainWindowViewMode : ObservableObject
     {
+        private ProcessMode _processMode { get; set; } = null;
+
         public MainWindowViewMode()
         {
             Title = $"{_mianTitle} - {OpenFileName}";
+
+            _processMode = ((App)Application.Current).ServiceProvider.GetRequiredService<ProcessMode>();
         }
 
         public string _mianTitle => "WPF_CAD Software";
@@ -39,6 +46,38 @@ namespace WPF_CAD.ViewModes
         {
             get => _openFilePath;
             set => SetProperty(ref _openFilePath, value);
+        }
+
+        private string _status = string.Empty;
+        public string Status
+        {
+            get => _status;
+            set => SetProperty(ref _status, value);
+        }
+
+        private string _dataTime = string.Empty;
+        public string DataTime
+        {
+            get => _dataTime;
+            set => SetProperty(ref _dataTime, value);
+        }
+
+        private bool _isAutoMode = false;
+        public bool IsAutoMode
+        {
+            get => _isAutoMode;
+            set
+            {
+                SetProperty(ref _isAutoMode, value);
+                if (value)
+                {
+                    _processMode.EnteringAutoMode();
+                }
+                else
+                {
+                    _processMode.ExitingAutoMode();
+                }
+            }
         }
 
         #region menu commands
@@ -122,6 +161,10 @@ namespace WPF_CAD.ViewModes
         {
             // 打开hardware setup window
         });
+        #endregion
+
+        #region toolbar commands
+
         #endregion
     }
 }
