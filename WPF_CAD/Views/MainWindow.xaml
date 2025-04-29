@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_CAD"
-        xmlns:hc="https://handyorg.github.io/handycontrol"
-        xmlns:ViewModes="clr-namespace:WPF_CAD.ViewModes" x:Class="WPF_CAD.MainWindow"
+        Style="{StaticResource MaterialDesignWindow}"
+        xmlns:ViewModes="clr-namespace:WPF_CAD.ViewModes" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="WPF_CAD.MainWindow"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Window.DataContext>
@@ -24,17 +24,31 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <Menu>
-                <MenuItem Header="File">
-                    <MenuItem Header="New" Command="{Binding NewFileCommand}"/>
-                    <MenuItem Header="Open" Command="{Binding OpenFileCommand}"/>
-                    <MenuItem Header="Save" Command="{Binding SaveFileCommand}"/>
-                    <MenuItem Header="Save As" Command="{Binding SaveAsFileCommand}"/>
-                    <MenuItem Header="Save as Plt" Command="{Binding SaveFileAsPltCommand}"/>
-                </MenuItem>
+            <materialDesign:Card Grid.Row="0">
+                <Menu materialDesign:MenuAssist.TopLevelMenuItemHeight="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type materialDesign:Card}}, Path=ActualHeight}">
+                    <MenuItem Header="File">
+                        <MenuItem Header="New" Command="{Binding NewFileCommand}" Icon="{materialDesign:PackIcon Kind=FileOutline}" InputGestureText="Ctrl+N"/>
+                        <MenuItem Header="Open" Command="{Binding OpenFileCommand}" Icon="{materialDesign:PackIcon Kind=FolderOpen}" InputGestureText="Ctrl+O"/>
+                        <MenuItem Header="Save" Command="{Binding SaveFileCommand}" Icon="{materialDesign:PackIcon Kind=ContentSave}" InputGestureText="Ctrl+S"/>
+                        <MenuItem Header="Save As" Command="{Binding SaveAsFileCommand}" Icon="{materialDesign:PackIcon Kind=ContentSave}" InputGestureText="Ctrl+Alt+S"/>
+                        <MenuItem Header="Save as Plt" Command="{Binding SaveFileAsPltCommand}"/>
+                    </MenuItem>
+                    <MenuItem Header="HardWare Setup" Command="{Binding HardWareSetupCommand}"/>
+                    <MenuItem Header="About" />
+                </Menu>
+            </materialDesign:Card>
 
-                <MenuItem Header="HardWare Setup" Command="{Binding HardWareSetupCommand}"/>
-            </Menu>
+            <ToolBarTray Grid.Row="2">
+                <ToolBar ClipToBounds="False" Style="{StaticResource MaterialDesignToolBar}">
+                    <Button Content="{materialDesign:PackIcon Kind=ArrowTopLeftThin}" ToolTip="Select the drawing"/>
+                    <Button Content="{materialDesign:PackIcon Kind=ChartLineVariant}" ToolTip="draw the line"/>
+                    <Button Content="{materialDesign:PackIcon Kind=RectangleOutline}" ToolTip="draw the rectangle"/>
+                    <Button Content="{materialDesign:PackIcon Kind=EllipseOutline}" ToolTip="draw the ellipse"/>
+                    <Button Content="{materialDesign:PackIcon Kind=FormatFont}" ToolTip="draw the font"/>
+                    <Button Content="{materialDesign:PackIcon Kind=Barcode}" ToolTip="draw the barcode"/>
+                    <Button Content="{materialDesign:PackIcon Kind=FileImport}" ToolTip="import"/>
+                </ToolBar>
+            </ToolBarTray>
         </Grid>
 
         <Grid Grid.Column="1">

@@ -19,7 +19,7 @@ namespace WPF_CAD
     {
         public IServiceProvider? ServiceProvider { get; private set; }
 
-        private static Mutex? mutex { get; set; }
+        private static Mutex? Mutex { get; set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -27,7 +27,7 @@ namespace WPF_CAD
 
             // Check if another instance of the application is already running
             var appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-            mutex = new Mutex(true, appName, out bool createdNew);
+            Mutex = new Mutex(true, appName, out bool createdNew);
             if (!createdNew)
             {
                 MessageBox.Show("Another instance of the application is already running.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.None, MessageBoxOptions.DefaultDesktopOnly);
