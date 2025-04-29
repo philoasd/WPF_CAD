@@ -17,7 +17,7 @@ namespace WPF_CAD
     /// </summary>
     public partial class App : Application
     {
-        public IServiceProvider ServiceProvider { get; private set; }
+        public IServiceProvider? ServiceProvider { get; private set; }
 
         private static Mutex? mutex { get; set; }
 
@@ -102,7 +102,7 @@ namespace WPF_CAD
             MessageBox.Show("An error occurred, please check the log file for details.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.None, MessageBoxOptions.DefaultDesktopOnly);
         }
 
-        private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        private void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
         {
             // 自定义处理Task任务异常
             Log.LogError("未捕获到的Task任务异常!" + e.Exception);
