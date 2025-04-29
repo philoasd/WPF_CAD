@@ -117,6 +117,11 @@ namespace WPF_CAD.ViewModes
         {
 
         });
+
+        public RelayCommand HardWareSetupCommand => new(() =>
+        {
+            // 打开hardware setup window
+        });
         #endregion
     }
 }

@@ -32,6 +32,8 @@
                     <MenuItem Header="Save As" Command="{Binding SaveAsFileCommand}"/>
                     <MenuItem Header="Save as Plt" Command="{Binding SaveFileAsPltCommand}"/>
                 </MenuItem>
+
+                <MenuItem Header="HardWare Setup" Command="{Binding HardWareSetupCommand}"/>
             </Menu>
         </Grid>
 
