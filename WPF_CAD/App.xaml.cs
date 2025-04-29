@@ -67,7 +67,7 @@ namespace WPF_CAD
 
             //if (loginWindow.IsLoginSuccess)
             //{
-            //    ServiceProvider.GetRequiredService<MainWindow>().ShowDialog();
+            ServiceProvider.GetRequiredService<MainWindow>().ShowDialog();
             //}
         }
 
