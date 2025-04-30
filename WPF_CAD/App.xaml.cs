@@ -18,7 +18,7 @@ namespace WPF_CAD
     /// </summary>
     public partial class App : Application
     {
-        public IServiceProvider? ServiceProvider { get; private set; }
+        public static IServiceProvider? ServiceProvider { get; private set; }
 
         private static Mutex? Mutex { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
+using WPF_CAD.ExternalClass;
 using WPF_CAD.Modes;
 using WPF_CAD.Utils;
 
@@ -16,13 +18,11 @@ namespace WPF_CAD.ViewModes
 {
     public class MainWindowViewMode : ObservableObject
     {
-        private ProcessMode _processMode { get; set; } = null;
+        private ProcessMode _processMode => App.ServiceProvider.GetRequiredService<ProcessMode>();
 
         public MainWindowViewMode()
         {
             Title = $"{_mianTitle} - {OpenFileName}";
-
-            _processMode = ((App)Application.Current).ServiceProvider.GetRequiredService<ProcessMode>();
         }
 
         public string _mianTitle => "WPF_CAD Software";
@@ -78,6 +78,20 @@ namespace WPF_CAD.ViewModes
                     _processMode.ExitingAutoMode();
                 }
             }
+        }
+
+        private ObservableCollection<string> _drawingList = new();
+        public ObservableCollection<string> DrawingList
+        {
+            get => _drawingList;
+            set => SetProperty(ref _drawingList, value);
+        }
+
+        private ObservableCollection<DrawingClass> _selectedDrawingInfomation = new();
+        public ObservableCollection<DrawingClass> SelectedDrawingInfomation
+        {
+            get => _selectedDrawingInfomation;
+            set => SetProperty(ref _selectedDrawingInfomation, value);
         }
 
         #region menu commands
