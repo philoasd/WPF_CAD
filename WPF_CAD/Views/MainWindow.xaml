@@ -21,10 +21,26 @@
 
             <Menu>
                 <MenuItem Header="File">
-                    <MenuItem Header="New" Command="{Binding NewFileCommand}" InputGestureText="Ctrl+N"/>
-                    <MenuItem Header="Open" Command="{Binding OpenFileCommand}"  InputGestureText="Ctrl+O"/>
-                    <MenuItem Header="Save" Command="{Binding SaveFileCommand}"  InputGestureText="Ctrl+S"/>
-                    <MenuItem Header="Save As" Command="{Binding SaveAsFileCommand}" InputGestureText="Ctrl+Alt+S"/>
+                    <MenuItem Header="New" Command="{Binding NewFileCommand}" InputGestureText="Ctrl+N">
+                        <MenuItem.Icon>
+                            <Image Source="/ico/2931173_document_empty_file_new_sheet_icon.ico"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Open" Command="{Binding OpenFileCommand}"  InputGestureText="Ctrl+O">
+                        <MenuItem.Icon>
+                            <Image Source="/ico/open_icon.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Save" Command="{Binding SaveFileCommand}"  InputGestureText="Ctrl+S">
+                        <MenuItem.Icon>
+                            <Image Source="/ico/save_icon.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Save As" Command="{Binding SaveAsFileCommand}" InputGestureText="Ctrl+Alt+S">
+                        <MenuItem.Icon>
+                            <Image Source="/ico/17436_as_guardar_save_icon.ico"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem Header="Save as Plt" Command="{Binding SaveFileAsPltCommand}"/>
                 </MenuItem>
                 <MenuItem Header="HardWare Setup" Command="{Binding HardWareSetupCommand}"/>
@@ -38,16 +54,13 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Vertical" Grid.Column="1" Margin="5,5,5,5">
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Auto Mode:" VerticalContentAlignment="Center"/>
-                        <ToggleButton IsChecked="{Binding IsAutoMode}" ToolTip="MaterialDesignSwitchSecondaryToggleButton"/>
-                    </StackPanel>
+                    <ToggleButton IsChecked="{Binding IsAutoMode}" hc:ToggleButtonAttach.ShowLabel="True" hc:VisualElement.HighlightBrush="{DynamicResource SuccessBrush}" Style="{StaticResource ToggleButtonSwitch}" Content="Auto Mode" HorizontalAlignment="Left"/>
 
-                    <GroupBox Header="Drawing List" Margin="0,5,0,5" >
+                    <GroupBox Header="Drawing List" Margin="0,5,0,5" Style="{StaticResource BaseStyle}">
                         <ListView ItemsSource="{Binding DrawingList}"/>
                     </GroupBox>
 
-                    <GroupBox Header="Selected Drawing Information" Margin="0,5,0,5">
+                    <GroupBox Header="Selected Drawing Information" Margin="0,5,0,5" Style="{StaticResource BaseStyle}">
                         
                     </GroupBox>
                 </StackPanel>
@@ -56,13 +69,27 @@
             <StackPanel Orientation="Horizontal" Grid.Row="2">
                 <ToolBarTray>
                     <ToolBar ClipToBounds="False" >
-                        <Button ToolTip="Select the drawing"/>
-                        <Button  ToolTip="draw the line"/>
-                        <Button  ToolTip="draw the rectangle"/>
-                        <Button  ToolTip="draw the ellipse"/>
-                        <Button  ToolTip="draw the font"/>
-                        <Button  ToolTip="draw the barcode"/>
-                        <Button  ToolTip="import"/>
+                        <Button ToolTip="Select the drawing">
+                            <Image Source="/ico/_selection_tool_icon.png"/>
+                        </Button>
+                        <Button  ToolTip="draw the line">
+                            <Image Source="/ico/8726075_line_alt_icon.ico"/>
+                        </Button>
+                        <Button  ToolTip="draw the rectangle">
+                            <Image Source="/ico/rectangle_shape_icon.png"/>
+                        </Button>
+                        <Button  ToolTip="draw the ellipse">
+                            <Image Source="/ico/ellipse_adobe illustrator tool_circle_icon.png"/>
+                        </Button>
+                        <Button  ToolTip="draw the font">
+                            <Image Source="/ico/font_text_icon.ico"/>
+                        </Button>
+                        <Button  ToolTip="draw the barcode">
+                            <Image Source="/ico/barcode_code_icon.ico"/>
+                        </Button>
+                        <Button  ToolTip="import">
+                            <Image Source="/ico/import_left_icon.ico"/>
+                        </Button>
                     </ToolBar>
                 </ToolBarTray>
 

@@ -9,6 +9,32 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ico\17436_as_guardar_save_icon.ico" />
+    <None Remove="ico\2931173_document_empty_file_new_sheet_icon.ico" />
+    <None Remove="ico\8726075_line_alt_icon.ico" />
+    <None Remove="ico\barcode_code_icon.ico" />
+    <None Remove="ico\camera_icon.png" />
+    <None Remove="ico\circle_oval_shape_icon.png" />
+    <None Remove="ico\ellipse_adobe illustrator tool_circle_icon.png" />
+    <None Remove="ico\font_text_icon.ico" />
+    <None Remove="ico\grabContinue_icon.png" />
+    <None Remove="ico\grabOnce_icon.png" />
+    <None Remove="ico\grabStop_icon.png" />
+    <None Remove="ico\import_left_icon.ico" />
+    <None Remove="ico\laser_wip_icon.png" />
+    <None Remove="ico\linearray_lines_shape_icon.png" />
+    <None Remove="ico\line_icon.png" />
+    <None Remove="ico\open_icon.png" />
+    <None Remove="ico\rectangleCircle_icon.png" />
+    <None Remove="ico\rectangle_shape_icon.png" />
+    <None Remove="ico\redo_forward_right_icon.png" />
+    <None Remove="ico\save_icon.png" />
+    <None Remove="ico\shape_triangle_icon.png" />
+    <None Remove="ico\undo_back_left_icon.png" />
+    <None Remove="ico\_selection_tool_icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="HandyControl" Version="3.5.1" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />
@@ -20,6 +46,34 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LogLib\LogLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="ico\17436_as_guardar_save_icon.ico" />
+    <Resource Include="ico\2931173_document_empty_file_new_sheet_icon.ico" />
+    <Resource Include="ico\8726075_line_alt_icon.ico" />
+    <Resource Include="ico\barcode_code_icon.ico" />
+    <Resource Include="ico\camera_icon.png" />
+    <Resource Include="ico\circle_oval_shape_icon.png" />
+    <Resource Include="ico\ellipse_adobe illustrator tool_circle_icon.png" />
+    <Resource Include="ico\font_text_icon.ico" />
+    <Resource Include="ico\grabContinue_icon.png" />
+    <Resource Include="ico\grabOnce_icon.png" />
+    <Resource Include="ico\grabStop_icon.png" />
+    <Resource Include="ico\import_left_icon.ico" />
+    <Resource Include="ico\laser_wip_icon.png" />
+    <Resource Include="ico\linearray_lines_shape_icon.png" />
+    <Resource Include="ico\line_icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ico\open_icon.png" />
+    <Resource Include="ico\rectangleCircle_icon.png" />
+    <Resource Include="ico\rectangle_shape_icon.png" />
+    <Resource Include="ico\redo_forward_right_icon.png" />
+    <Resource Include="ico\save_icon.png" />
+    <Resource Include="ico\shape_triangle_icon.png" />
+    <Resource Include="ico\undo_back_left_icon.png" />
+    <Resource Include="ico\_selection_tool_icon.png" />
   </ItemGroup>
 
   <ItemGroup>
