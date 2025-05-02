@@ -23,6 +23,11 @@ namespace WPF_CAD
     {
         private MainWindowViewMode _mainWindowViewMode => App.ServiceProvider.GetRequiredService<MainWindowViewMode>();
 
+        /// <summary>
+        /// 是否正在关闭窗口
+        /// </summary>
+        public bool IsWindowClosing { get; set; } = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,6 +43,7 @@ namespace WPF_CAD
             // 关闭窗口时，弹出提示框：提示是否退出
             if (MsgBoxClass.ShowQMsg("Are you sure you want to exit?") == MessageBoxResult.Yes)
             {
+                IsWindowClosing = true; // 设置正在关闭窗口的标志
                 e.Cancel = false; // 允许关闭窗口
             }
             else
@@ -48,6 +54,8 @@ namespace WPF_CAD
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            IsWindowClosing = false;
+
             UpdateDateTime();
 
             for (int i = 0; i < 10; i++)
@@ -71,7 +79,7 @@ namespace WPF_CAD
         {
             Task.Run(() =>
             {
-                while (true)
+                while (!IsWindowClosing)
                 {
                     Dispatcher.Invoke(() =>
                     {

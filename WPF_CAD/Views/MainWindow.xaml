@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_CAD"
         xmlns:hc="https://handyorg.github.io/handycontrol"
-        xmlns:ViewModes="clr-namespace:WPF_CAD.ViewModes" x:Class="WPF_CAD.MainWindow"
+        xmlns:ViewModes="clr-namespace:WPF_CAD.ViewModes" xmlns:drawingcanvaslib="clr-namespace:DrawingCanvasLib;assembly=DrawingCanvasLib" x:Class="WPF_CAD.MainWindow"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Window.DataContext>
@@ -52,6 +52,8 @@
                     <ColumnDefinition Width="8*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
+
+                <drawingcanvaslib:MCanvas CurPos="{Binding CurPos, Mode=TwoWay}"/>
 
                 <StackPanel Orientation="Vertical" Grid.Column="1" Margin="5,5,5,5">
                     <ToggleButton IsChecked="{Binding IsAutoMode}" hc:ToggleButtonAttach.ShowLabel="True" hc:VisualElement.HighlightBrush="{DynamicResource SuccessBrush}" Style="{StaticResource ToggleButtonSwitch}" Content="Auto Mode" HorizontalAlignment="Left"/>

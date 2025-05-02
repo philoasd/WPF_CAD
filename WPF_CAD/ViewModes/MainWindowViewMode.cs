@@ -10,6 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
+using SkiaSharp;
 using WPF_CAD.ExternalClass;
 using WPF_CAD.Modes;
 using WPF_CAD.Utils;
@@ -92,6 +93,18 @@ namespace WPF_CAD.ViewModes
         {
             get => _selectedDrawingInfomation;
             set => SetProperty(ref _selectedDrawingInfomation, value);
+        }
+
+        private SKPoint _curPos = new SKPoint(0, 0);
+        public SKPoint CurPos
+        {
+            get => _curPos;
+            set
+            {
+                SetProperty(ref _curPos, value);
+
+                Status = $"X: {CurPos.X:F3}, Y: {CurPos.Y:F3}";
+            }
         }
 
         #region menu commands

@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF_CAD", "WPF_CAD\WPF_CAD.csproj", "{5C595F51-E4E6-4406-A6BF-890591A59457}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogLib", "LogLib\LogLib.csproj", "{DB4ADFEA-C022-40C8-B447-3ECA492FB27E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawingCanvasLib", "DrawingCanvasLib\DrawingCanvasLib.csproj", "{2F5D213A-A7EE-4AAF-8BD1-0536953E2EF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{DB4ADFEA-C022-40C8-B447-3ECA492FB27E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB4ADFEA-C022-40C8-B447-3ECA492FB27E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB4ADFEA-C022-40C8-B447-3ECA492FB27E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F5D213A-A7EE-4AAF-8BD1-0536953E2EF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F5D213A-A7EE-4AAF-8BD1-0536953E2EF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F5D213A-A7EE-4AAF-8BD1-0536953E2EF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F5D213A-A7EE-4AAF-8BD1-0536953E2EF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
