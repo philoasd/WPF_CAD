@@ -80,15 +80,15 @@ namespace WPF_CAD.ViewModes
             }
         }
 
-        private ObservableCollection<string> _drawingList = new();
-        public ObservableCollection<string> DrawingList
+        private ObservableCollection<DrawingClass> _drawingList = new();
+        public ObservableCollection<DrawingClass> DrawingList
         {
             get => _drawingList;
             set => SetProperty(ref _drawingList, value);
         }
 
-        private ObservableCollection<DrawingClass> _selectedDrawingInfomation = new();
-        public ObservableCollection<DrawingClass> SelectedDrawingInfomation
+        private DrawingClass _selectedDrawingInfomation = new();
+        public DrawingClass SelectedDrawingInfomation
         {
             get => _selectedDrawingInfomation;
             set => SetProperty(ref _selectedDrawingInfomation, value);

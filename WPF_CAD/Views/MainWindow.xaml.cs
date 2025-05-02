@@ -52,13 +52,16 @@ namespace WPF_CAD
 
             for (int i = 0; i < 10; i++)
             {
-                _mainWindowViewMode.DrawingList.Add($"Drawing {i + 1}");
+                _mainWindowViewMode.DrawingList.Add(new DrawingClass
+                {
+                    IsSelected = false,
+                    Name = $"Drawing {i + 1}",
+                    Width = 100 + i * 10,
+                    Height = 100 + i * 10,
+                    CenterX = 50 + i * 5,
+                    CenterY = 50 + i * 5
+                });
             }
-
-            _mainWindowViewMode.SelectedDrawingInfomation.Add(new DrawingClass
-            {
-                IsSelected = false,
-            });
         }
 
         /// <summary>

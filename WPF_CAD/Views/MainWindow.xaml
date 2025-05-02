@@ -57,7 +57,13 @@
                     <ToggleButton IsChecked="{Binding IsAutoMode}" hc:ToggleButtonAttach.ShowLabel="True" hc:VisualElement.HighlightBrush="{DynamicResource SuccessBrush}" Style="{StaticResource ToggleButtonSwitch}" Content="Auto Mode" HorizontalAlignment="Left"/>
 
                     <GroupBox Header="Drawing List" Margin="0,5,0,5" Style="{StaticResource BaseStyle}">
-                        <ListView ItemsSource="{Binding DrawingList}"/>
+                        <ListBox ItemsSource="{Binding DrawingList}" Style="{StaticResource ListBox.Small}" Height="200">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </GroupBox>
 
                     <GroupBox Header="Selected Drawing Information" Margin="0,5,0,5" Style="{StaticResource BaseStyle}">
