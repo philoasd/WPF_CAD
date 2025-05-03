@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DrawingCanvasLib;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
 using SkiaSharp;
@@ -107,6 +108,17 @@ namespace WPF_CAD.ViewModes
             }
         }
 
+        private ToolType _drawingTool = ToolType.Select;
+        public ToolType DrawingTool
+        {
+            get => _drawingTool;
+            set
+            {
+                SetProperty(ref _drawingTool, value);
+                // 这里可以添加切换工具的逻辑
+            }
+        }
+
         #region menu commands
         public RelayCommand NewFileCommand => new(() =>
         {
@@ -191,6 +203,17 @@ namespace WPF_CAD.ViewModes
         #endregion
 
         #region toolbar commands
+
+        /// <summary>
+        /// 切换绘图工具
+        /// </summary>
+        public RelayCommand<string> SwitchDrawingToolCommand => new((obj) =>
+        {
+            if (obj == null) { return; }
+            var toolType = int.Parse(obj.ToString());
+
+            DrawingTool = (ToolType)toolType;
+        });
 
         #endregion
     }

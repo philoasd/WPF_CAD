@@ -16,7 +16,7 @@ namespace DrawingCanvasLib.DrawTool
         public SKPoint EndPoint { get; set; } = new();
         public SKPoint StartPoint { get; set; } = new();
         public string UID => Guid.NewGuid().ToString();
-        public int ToolType { get; set; } = 0;
+        public ToolType ToolType { get; set; } = 0;
         public List<SKPoint> Points { get; set; } = new();
         public bool IsHatch { get; set; } = false;
         public bool IsOutLine { get; set; } = true;

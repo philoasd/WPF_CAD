@@ -53,7 +53,7 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <drawingcanvaslib:MCanvas CurPos="{Binding CurPos, Mode=TwoWay}"/>
+                <drawingcanvaslib:MCanvas CurPos="{Binding CurPos, Mode=TwoWay}" DrawingTool="{Binding DrawingTool, Mode=TwoWay}"/>
 
                 <StackPanel Orientation="Vertical" Grid.Column="1" Margin="5,5,5,5">
                     <ToggleButton IsChecked="{Binding IsAutoMode}" hc:ToggleButtonAttach.ShowLabel="True" hc:VisualElement.HighlightBrush="{DynamicResource SuccessBrush}" Style="{StaticResource ToggleButtonSwitch}" Content="Auto Mode" HorizontalAlignment="Left"/>
@@ -69,7 +69,7 @@
                     </GroupBox>
 
                     <GroupBox Header="Selected Drawing Information" Margin="0,5,0,5" Style="{StaticResource BaseStyle}">
-                        
+
                     </GroupBox>
                 </StackPanel>
             </Grid>
@@ -77,25 +77,25 @@
             <StackPanel Orientation="Horizontal" Grid.Row="2">
                 <ToolBarTray>
                     <ToolBar ClipToBounds="False" >
-                        <Button ToolTip="Select the drawing">
+                        <Button ToolTip="Select the drawing" Command="{Binding SwitchDrawingToolCommand}" CommandParameter="0">
                             <Image Source="/ico/_selection_tool_icon.png"/>
                         </Button>
-                        <Button  ToolTip="draw the line">
+                        <Button  ToolTip="draw the line" Command="{Binding SwitchDrawingToolCommand}" CommandParameter="1">
                             <Image Source="/ico/8726075_line_alt_icon.ico"/>
                         </Button>
-                        <Button  ToolTip="draw the rectangle">
+                        <Button  ToolTip="draw the rectangle" Command="{Binding SwitchDrawingToolCommand}" CommandParameter="2">
                             <Image Source="/ico/rectangle_shape_icon.png"/>
                         </Button>
-                        <Button  ToolTip="draw the ellipse">
+                        <Button  ToolTip="draw the ellipse" Command="{Binding SwitchDrawingToolCommand}" CommandParameter="3">
                             <Image Source="/ico/ellipse_adobe illustrator tool_circle_icon.png"/>
                         </Button>
-                        <Button  ToolTip="draw the font">
+                        <Button  ToolTip="draw the font" Command="{Binding SwitchDrawingToolCommand}" CommandParameter="4">
                             <Image Source="/ico/font_text_icon.ico"/>
                         </Button>
-                        <Button  ToolTip="draw the barcode">
+                        <Button  ToolTip="draw the barcode" Command="{Binding SwitchDrawingToolCommand}" CommandParameter="5">
                             <Image Source="/ico/barcode_code_icon.ico"/>
                         </Button>
-                        <Button  ToolTip="import">
+                        <Button  ToolTip="import" Command="{Binding SwitchDrawingToolCommand}" CommandParameter="6">
                             <Image Source="/ico/import_left_icon.ico"/>
                         </Button>
                     </ToolBar>

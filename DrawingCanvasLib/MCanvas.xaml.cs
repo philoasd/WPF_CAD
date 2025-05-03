@@ -43,15 +43,37 @@ namespace DrawingCanvasLib
             set => SetValue(ImageProperty, value);
         }
 
-        public static readonly DependencyProperty SelectedDrawingkProperty =
+        public static readonly DependencyProperty SelectedDrawingProperty =
             DependencyProperty.Register("SelectedDrawing", typeof(BaseToolClass), typeof(MCanvas), new PropertyMetadata(null));
         /// <summary>
         /// 当前选中的图形
         /// </summary>
         public BaseToolClass SelectedDrawing
         {
-            get => (BaseToolClass)GetValue(SelectedDrawingkProperty);
-            set => SetValue(SelectedDrawingkProperty, value);
+            get => (BaseToolClass)GetValue(SelectedDrawingProperty);
+            set => SetValue(SelectedDrawingProperty, value);
+        }
+
+        public static readonly DependencyProperty DrawingToolProperty =
+            DependencyProperty.Register("DrawingTool", typeof(ToolType), typeof(MCanvas), new PropertyMetadata(ToolType.Select));
+        /// <summary>
+        /// 当前的画笔工具
+        /// </summary>
+        public ToolType DrawingTool
+        {
+            get => (ToolType)GetValue(DrawingToolProperty);
+            set => SetValue(DrawingToolProperty, value);
+        }
+
+        public static readonly DependencyProperty ArtWorkListProperty =
+            DependencyProperty.Register("ArtWorkList", typeof(List<BaseToolClass>), typeof(MCanvas), new PropertyMetadata(new List<BaseToolClass>()));
+        /// <summary>
+        /// 当前绘制的图形列表
+        /// </summary>
+        public List<BaseToolClass> ArtWorkList
+        {
+            get => (List<BaseToolClass>)GetValue(ArtWorkListProperty);
+            set => SetValue(ArtWorkListProperty, value);
         }
 
         #endregion
@@ -60,32 +82,36 @@ namespace DrawingCanvasLib
         /// <summary>
         /// 平移偏移量
         /// </summary>
-        private SKPoint _Translate { get; set; } = new SKPoint(0, 0);
+        private SKPoint _translate { get; set; } = new SKPoint(0, 0);
 
         /// <summary>
         /// 缩放比例
         /// </summary>
-        private float _Scale { get; set; } = 1.0f;
+        private float _scale { get; set; } = 1.0f;
 
         /// <summary>
         /// 最大缩放比例
         /// </summary>
-        private float MaxZoom => 1000.0f;
+        private float _maxZoom => 1000.0f;
 
         /// <summary>
         /// 最小缩放比例
         /// </summary>
-        private float MinZoom => 1.0f;
-
-        /// <summary>
-        /// 当前绘制的图形列表
-        /// </summary>
-        private List<BaseToolClass> _ArtWorkList { get; set; } = new();
+        private float _minZoom => 1.0f;
 
         /// <summary>
         /// 当前拖拽的角
         /// </summary>
-        private int _activeHandleIndex = -1;
+        private int _activeHandleIndex { get; set; } = -1;
+        #endregion
+
+        #region Drawing Tool Value
+
+        /// <summary>
+        /// 直线
+        /// </summary>
+        private LineClass _line { get; set; } = null;
+
         #endregion
 
         public MCanvas()
@@ -111,25 +137,25 @@ namespace DrawingCanvasLib
 
             // 根据滚轮增量调整缩放比例
             float zoomFactor = e.Delta > 0 ? 1.25f : 0.8f;
-            _Scale *= zoomFactor;
+            _scale *= zoomFactor;
 
-            if (_Scale < MinZoom)
+            if (_scale < _minZoom)
             {
-                _Scale = MinZoom;
-                _Translate = new SKPoint(0, 0);
+                _scale = _minZoom;
+                _translate = new SKPoint(0, 0);
                 this.Canvas.InvalidateVisual();
                 return;
             }
-            else if (_Scale > MaxZoom)
+            else if (_scale > _maxZoom)
             {
-                _Scale = MaxZoom;
+                _scale = _maxZoom;
                 //return;
             }
 
             // 调整平移，使得鼠标对应的画布位置保持不变
-            var offsetX = mousePosition.X - CurPos.X * _Scale;
-            var offsetY = mousePosition.Y - CurPos.Y * _Scale;
-            _Translate = new SKPoint((float)offsetX, (float)offsetY);
+            var offsetX = mousePosition.X - CurPos.X * _scale;
+            var offsetY = mousePosition.Y - CurPos.Y * _scale;
+            _translate = new SKPoint((float)offsetX, (float)offsetY);
 
             // 重新绘制
             this.Canvas.InvalidateVisual();
@@ -139,19 +165,64 @@ namespace DrawingCanvasLib
         {
             var pos = e.GetPosition(sender as IInputElement);
             CurPos = new SKPoint(
-                (float)((pos.X - _Translate.X) / _Scale),
-                (float)((pos.Y - _Translate.Y) / _Scale)
+                (float)((pos.X - _translate.X) / _scale),
+                (float)((pos.Y - _translate.Y) / _scale)
             );
+            BaseToolClass.CurrentPoint = CurPos;
+
+            switch (DrawingTool)
+            {
+                case ToolType.Select:
+                    {
+                        break;
+                    }
+                case ToolType.Line:
+                    {
+                        if (_line != null)
+                        {
+                            _line.EndPoint = BaseToolClass.CurrentPoint;
+                            this.Canvas.InvalidateVisual();
+                        }
+                        break;
+                    }
+            }
         }
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            switch (DrawingTool)
+            {
+                case ToolType.Select:
+                    {
+                        CheckClickPoint(BaseToolClass.CurrentPoint);
+                        this.Canvas.InvalidateVisual();
+                        break;
+                    }
+                case ToolType.Line:
+                    {
+                        _line = new(BaseToolClass.CurrentPoint);
+                        ArtWorkList.Add(_line);
+                        break;
+                    }
+            }
         }
 
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            Mouse.OverrideCursor = null;
 
+            switch (DrawingTool)
+            {
+                case ToolType.Select:
+                    {
+                        break;
+                    }
+                case ToolType.Line:
+                    {
+                        _line = null;
+                        break;
+                    }
+            }
         }
 
         private void Canvas_PaintSurface(object? sender, SKPaintSurfaceEventArgs e)
@@ -159,8 +230,8 @@ namespace DrawingCanvasLib
             e.Surface.Canvas.Clear(SKColors.White);
 
             // 应用缩放和平移
-            e.Surface.Canvas.Translate(_Translate.X, _Translate.Y);
-            e.Surface.Canvas.Scale(_Scale);
+            e.Surface.Canvas.Translate(_translate.X, _translate.Y);
+            e.Surface.Canvas.Scale(_scale);
 
             // 绘制图片，自适应图片大小
             if (Image != null)
@@ -188,6 +259,14 @@ namespace DrawingCanvasLib
                 var destRect = new SKRect(x, y, x + scaledWidth, y + scaledHeight);
                 e.Surface.Canvas.DrawBitmap(Image, destRect);
             }
+
+            // 绘制图形
+            foreach (var tool in ArtWorkList)
+            {
+                tool.PaintStyle.StrokeWidth = 1 / _scale;
+                tool.Draw(e.Surface.Canvas);
+                tool.ResizePaintStyle.StrokeWidth = 1 / _scale;
+            }
         }
 
         /// <summary>
@@ -197,7 +276,7 @@ namespace DrawingCanvasLib
         /// <returns></returns>
         private void CheckClickPoint(SKPoint clickPoint)
         {
-            foreach (var tool in _ArtWorkList)
+            foreach (var tool in ArtWorkList)
             {
                 tool.IsSelected = false;
                 //if (IsPointInRect(tool.StartPoint, tool.EndPoint, clickPoint, tool.CircleSize * tool.PaintStyle.StrokeWidth))
@@ -206,7 +285,7 @@ namespace DrawingCanvasLib
                     tool.IsSelected = true;
 
                     // 将其他图形的选中状态设置为 false
-                    foreach (var otherTool in _ArtWorkList)
+                    foreach (var otherTool in ArtWorkList)
                     {
                         if (otherTool != tool)
                         {
@@ -223,7 +302,7 @@ namespace DrawingCanvasLib
 
         private void UpdateDrawingPosition(SKPoint offset)
         {
-            foreach (var tool in _ArtWorkList)
+            foreach (var tool in ArtWorkList)
             {
                 if (!tool.IsSelected) { continue; }
 
@@ -236,7 +315,7 @@ namespace DrawingCanvasLib
         private void UpdateDrawingSize(SKPoint offset, int flag)
         {
             if (flag < 1) { return; }
-            foreach (var tool in _ArtWorkList)
+            foreach (var tool in ArtWorkList)
             {
                 if (!tool.IsSelected) { continue; }
 
@@ -363,7 +442,7 @@ namespace DrawingCanvasLib
         /// <param name="point"></param>
         private void ChangeMouseShape(SKPoint point)
         {
-            foreach (var tool in _ArtWorkList)
+            foreach (var tool in ArtWorkList)
             {
                 if (!tool.IsSelected) { continue; }
 
