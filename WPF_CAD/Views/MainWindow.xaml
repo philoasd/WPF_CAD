@@ -53,8 +53,8 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <drawingcanvaslib:MCanvas CurPos="{Binding CurPos, Mode=TwoWay}" DrawingTool="{Binding DrawingTool, Mode=TwoWay}" ArtWorkList="{Binding DrawingList, Mode=TwoWay}"
-                                          SelectedDrawing="{Binding SelectedDrawing, Mode=TwoWay}"/>
+                <drawingcanvaslib:MCanvas CurPos="{Binding CurPos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DrawingTool="{Binding DrawingTool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ArtWorkList="{Binding DrawingList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedDrawing="{Binding SelectedDrawing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <StackPanel Orientation="Vertical" Grid.Column="1" Margin="5,5,5,5">
                     <ToggleButton IsChecked="{Binding IsAutoMode}" hc:ToggleButtonAttach.ShowLabel="True" hc:VisualElement.HighlightBrush="{DynamicResource SuccessBrush}" Style="{StaticResource ToggleButtonSwitch}" Content="Auto Mode" HorizontalAlignment="Left"/>

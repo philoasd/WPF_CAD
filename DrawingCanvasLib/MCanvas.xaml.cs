@@ -66,15 +66,6 @@ namespace DrawingCanvasLib
             set
             {
                 SetValue(DrawingToolProperty, value);
-
-                // 如果当前选择的工具是清除工具，则清空所有图形
-                if (value == ToolType.Clear)
-                {
-                    ArtWorkList.Clear();
-                    this.Canvas.InvalidateVisual();
-
-                    DrawingTool = ToolType.Select; // 结束绘制
-                }
             }
         }
 
@@ -89,12 +80,6 @@ namespace DrawingCanvasLib
             set
             {
                 SetValue(ArtWorkListProperty, value);
-
-                if (value.Count == 0)
-                {
-                    ArtWorkList.Clear();
-                    this.Canvas.InvalidateVisual();
-                }
             }
         }
 
