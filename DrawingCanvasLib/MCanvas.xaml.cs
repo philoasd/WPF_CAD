@@ -56,7 +56,7 @@ namespace DrawingCanvasLib
         }
 
         public static readonly DependencyProperty DrawingToolProperty =
-            DependencyProperty.Register("DrawingTool", typeof(ToolType), typeof(MCanvas), new PropertyMetadata(ToolType.Select));
+            DependencyProperty.Register("DrawingTool", typeof(ToolType), typeof(MCanvas), new PropertyMetadata(ToolType.Select, OnDrawingToolChanged));
         /// <summary>
         /// 当前的画笔工具
         /// </summary>
@@ -66,6 +66,20 @@ namespace DrawingCanvasLib
             set
             {
                 SetValue(DrawingToolProperty, value);
+            }
+        }
+        private static void OnDrawingToolChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is MCanvas canvas)
+            {
+                if(e.NewValue is ToolType toolType)
+                {
+                    if(toolType == ToolType.Clear)
+                    {
+                        canvas.ArtWorkList.Clear();
+                        canvas.Canvas.InvalidateVisual();
+                    }
+                }
             }
         }
 

@@ -193,7 +193,7 @@ namespace WPF_CAD.ViewModes
             OpenFileName = string.Empty;
             Title = $"{_mianTitle} - {OpenFileName}";
 
-            DrawingList.Clear();
+            DrawingTool = ToolType.Clear;
         });
 
         public RelayCommand OpenFileCommand => new(() =>
