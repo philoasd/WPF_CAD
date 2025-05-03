@@ -53,7 +53,8 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <drawingcanvaslib:MCanvas CurPos="{Binding CurPos, Mode=TwoWay}" DrawingTool="{Binding DrawingTool, Mode=TwoWay}"/>
+                <drawingcanvaslib:MCanvas CurPos="{Binding CurPos, Mode=TwoWay}" DrawingTool="{Binding DrawingTool, Mode=TwoWay}" ArtWorkList="{Binding DrawingList, Mode=TwoWay}"
+                                          SelectedDrawing="{Binding SelectedDrawing, Mode=TwoWay}"/>
 
                 <StackPanel Orientation="Vertical" Grid.Column="1" Margin="5,5,5,5">
                     <ToggleButton IsChecked="{Binding IsAutoMode}" hc:ToggleButtonAttach.ShowLabel="True" hc:VisualElement.HighlightBrush="{DynamicResource SuccessBrush}" Style="{StaticResource ToggleButtonSwitch}" Content="Auto Mode" HorizontalAlignment="Left"/>
@@ -62,14 +63,25 @@
                         <ListBox ItemsSource="{Binding DrawingList}" Style="{StaticResource ListBox.Small}" Height="200">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Name}"/>
+                                    <TextBlock Text="{Binding DrawingName}"/>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </GroupBox>
 
                     <GroupBox Header="Selected Drawing Information" Margin="0,5,0,5" Style="{StaticResource BaseStyle}">
-
+                        <StackPanel Orientation="Vertical" Margin="5,5,5,5">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Width: " VerticalAlignment="Center"/>
+                                <Label Content="{Binding DrawingWidth}"/>
+                                <TextBlock Text="Height: " VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                <Label Content="{Binding DrawingHeight}"/>
+                                <TextBlock Text="Center X: " VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                <Label Content="{Binding DrawingCenterX}"/>
+                                <TextBlock Text="Center Y: " VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                <Label Content="{Binding DrawingCenterY}"/>
+                            </StackPanel>
+                        </StackPanel>
                     </GroupBox>
                 </StackPanel>
             </Grid>

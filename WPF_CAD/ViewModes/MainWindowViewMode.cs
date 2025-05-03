@@ -9,10 +9,10 @@ using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DrawingCanvasLib;
+using DrawingCanvasLib.DrawTool;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
 using SkiaSharp;
-using WPF_CAD.ExternalClass;
 using WPF_CAD.Modes;
 using WPF_CAD.Utils;
 
@@ -82,19 +82,86 @@ namespace WPF_CAD.ViewModes
             }
         }
 
-        private ObservableCollection<DrawingClass> _drawingList = new();
-        public ObservableCollection<DrawingClass> DrawingList
+        private ObservableCollection<BaseToolClass> _drawingList = new();
+        public ObservableCollection<BaseToolClass> DrawingList
         {
             get => _drawingList;
             set => SetProperty(ref _drawingList, value);
         }
 
-        private DrawingClass _selectedDrawingInfomation = new();
-        public DrawingClass SelectedDrawingInfomation
+        private BaseToolClass _selectedDrawing = null;
+        public BaseToolClass SelectedDrawing
         {
-            get => _selectedDrawingInfomation;
-            set => SetProperty(ref _selectedDrawingInfomation, value);
+            get => _selectedDrawing;
+            set
+            {
+                SetProperty(ref _selectedDrawing, value);
+
+                if (value != null)
+                {
+                    // 当前选中路径的外接矩形大小
+                    var rect = value.OutLinePath.TightBounds;
+
+                    DrawingWidth = rect.Width;
+                    DrawingHeight = rect.Height;
+
+                    DrawingCenterX = rect.Left + rect.Width / 2;
+                    DrawingCenterY = rect.Top + rect.Height / 2;
+                }
+            }
         }
+
+        #region Drawing Properties
+
+        private float _drawingWidth = 0.0f;
+        public float DrawingWidth
+        {
+            get => _drawingWidth;
+            set
+            {
+                // 保留三位小数
+                value = (float)Math.Round(value, 3);
+                SetProperty(ref _drawingWidth, value);
+            }
+        }
+
+        private float _drawingHeight = 0.0f;
+        public float DrawingHeight
+        {
+            get => _drawingHeight;
+            set
+            {
+                // 保留三位小数
+                value = (float)Math.Round(value, 3);
+                SetProperty(ref _drawingHeight, value);
+            }
+        }
+
+        private float _drawingCenterX = 0.0f;
+        public float DrawingCenterX
+        {
+            get => _drawingCenterX;
+            set
+            {
+                // 保留三位小数
+                value = (float)Math.Round(value, 3);
+                SetProperty(ref _drawingCenterX, value);
+            }
+        }
+
+        private float _drawingCenterY = 0.0f;
+        public float DrawingCenterY
+        {
+            get => _drawingCenterY;
+            set
+            {
+                // 保留三位小数
+                value = (float)Math.Round(value, 3);
+                SetProperty(ref _drawingCenterY, value);
+            }
+        }
+
+        #endregion
 
         private SKPoint _curPos = new SKPoint(0, 0);
         public SKPoint CurPos
@@ -125,6 +192,9 @@ namespace WPF_CAD.ViewModes
             // 关闭当前文件，清空当前显示内容
             OpenFileName = string.Empty;
             Title = $"{_mianTitle} - {OpenFileName}";
+
+            DrawingTool = ToolType.Clear;
+            DrawingList.Clear();
         });
 
         public RelayCommand OpenFileCommand => new(() =>

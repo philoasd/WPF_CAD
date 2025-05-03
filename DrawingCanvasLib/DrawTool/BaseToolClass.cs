@@ -22,6 +22,7 @@ namespace DrawingCanvasLib.DrawTool
         public bool IsOutLine { get; set; } = true;
         protected static int UpSize => 1000;
         public int CircleSize => 10;
+        public string DrawingName { get; set; } = string.Empty;
 
         public SKPath OutLinePath { get; set; } = new();
         public SKPath HatchPath { get; set; } = new();

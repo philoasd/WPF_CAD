@@ -1,6 +1,7 @@
 ﻿using DrawingCanvasLib.DrawTool;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -62,18 +63,39 @@ namespace DrawingCanvasLib
         public ToolType DrawingTool
         {
             get => (ToolType)GetValue(DrawingToolProperty);
-            set => SetValue(DrawingToolProperty, value);
+            set
+            {
+                SetValue(DrawingToolProperty, value);
+
+                // 如果当前选择的工具是清除工具，则清空所有图形
+                if (value == ToolType.Clear)
+                {
+                    ArtWorkList.Clear();
+                    this.Canvas.InvalidateVisual();
+
+                    DrawingTool = ToolType.Select; // 结束绘制
+                }
+            }
         }
 
         public static readonly DependencyProperty ArtWorkListProperty =
-            DependencyProperty.Register("ArtWorkList", typeof(List<BaseToolClass>), typeof(MCanvas), new PropertyMetadata(new List<BaseToolClass>()));
+            DependencyProperty.Register("ArtWorkList", typeof(ObservableCollection<BaseToolClass>), typeof(MCanvas), new PropertyMetadata(new ObservableCollection<BaseToolClass>()));
         /// <summary>
         /// 当前绘制的图形列表
         /// </summary>
-        public List<BaseToolClass> ArtWorkList
+        public ObservableCollection<BaseToolClass> ArtWorkList
         {
-            get => (List<BaseToolClass>)GetValue(ArtWorkListProperty);
-            set => SetValue(ArtWorkListProperty, value);
+            get => (ObservableCollection<BaseToolClass>)GetValue(ArtWorkListProperty);
+            set
+            {
+                SetValue(ArtWorkListProperty, value);
+
+                if (value.Count == 0)
+                {
+                    ArtWorkList.Clear();
+                    this.Canvas.InvalidateVisual();
+                }
+            }
         }
 
         #endregion
@@ -103,6 +125,11 @@ namespace DrawingCanvasLib
         /// 当前拖拽的角
         /// </summary>
         private int _activeHandleIndex { get; set; } = -1;
+
+        /// <summary>
+        /// 当前点击点
+        /// </summary>
+        private SKPoint _clickPoint { get; set; } = new SKPoint(0, 0);
         #endregion
 
         #region Drawing Tool Value
@@ -119,6 +146,19 @@ namespace DrawingCanvasLib
             InitializeComponent();
 
             this.Loaded += MCanvas_Loaded;
+            this.Unloaded += MCanvas_Unloaded;
+        }
+
+        private void MCanvas_Unloaded(object sender, RoutedEventArgs e)
+        {
+            ArtWorkList.Clear();
+            this.Canvas.InvalidateVisual();
+
+            this.Canvas.PaintSurface -= Canvas_PaintSurface;
+            this.Canvas.MouseUp -= Canvas_MouseUp;
+            this.Canvas.MouseDown -= Canvas_MouseDown;
+            this.Canvas.MouseMove -= Canvas_MouseMove;
+            this.Canvas.MouseWheel -= Canvas_MouseWheel;
         }
 
         private void MCanvas_Loaded(object sender, RoutedEventArgs e)
@@ -186,10 +226,41 @@ namespace DrawingCanvasLib
                         break;
                     }
             }
+
+            #region dragging
+            if (e.LeftButton.HasFlag(MouseButtonState.Pressed))
+            {
+                var offsetX = BaseToolClass.CurrentPoint.X - _clickPoint.X;
+                var offsetY = BaseToolClass.CurrentPoint.Y - _clickPoint.Y;
+                var offset = new SKPoint(offsetX, offsetY);
+
+                switch (_activeHandleIndex)
+                {
+                    case 0:
+                        {
+                            UpdateDrawingPosition(offset);
+                            break;
+                        }
+                    default:
+                        {
+                            UpdateDrawingSize(offset, _activeHandleIndex);
+                            break;
+                        }
+                }
+
+                _clickPoint = BaseToolClass.CurrentPoint;
+            }
+            else
+            {
+                ChangeMouseShape(BaseToolClass.CurrentPoint);
+            }
+            #endregion
         }
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            _clickPoint = BaseToolClass.CurrentPoint;
+
             switch (DrawingTool)
             {
                 case ToolType.Select:
@@ -201,6 +272,7 @@ namespace DrawingCanvasLib
                 case ToolType.Line:
                     {
                         _line = new(BaseToolClass.CurrentPoint);
+                        _line.DrawingName = "Line";
                         ArtWorkList.Add(_line);
                         break;
                     }
@@ -213,16 +285,14 @@ namespace DrawingCanvasLib
 
             switch (DrawingTool)
             {
-                case ToolType.Select:
-                    {
-                        break;
-                    }
                 case ToolType.Line:
                     {
                         _line = null;
                         break;
                     }
             }
+
+            DrawingTool = ToolType.Select; // 结束绘制
         }
 
         private void Canvas_PaintSurface(object? sender, SKPaintSurfaceEventArgs e)
@@ -283,7 +353,7 @@ namespace DrawingCanvasLib
                 if (tool.IsPointInPath(clickPoint))
                 {
                     tool.IsSelected = true;
-
+                    SelectedDrawing = tool;
                     // 将其他图形的选中状态设置为 false
                     foreach (var otherTool in ArtWorkList)
                     {

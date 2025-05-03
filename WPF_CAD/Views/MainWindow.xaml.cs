@@ -10,7 +10,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WPF_CAD.ExternalClass;
 using WPF_CAD.Utils;
 using WPF_CAD.ViewModes;
 
