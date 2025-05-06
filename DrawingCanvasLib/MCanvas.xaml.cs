@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_Draw.DrawTool;
 
 namespace DrawingCanvasLib
 {
@@ -137,6 +138,8 @@ namespace DrawingCanvasLib
         /// 直线
         /// </summary>
         private LineClass _line { get; set; } = null;
+        private RectangleClass _rect { get; set; } = null;
+        private EllipseClass _ellipse { get; set; } = null;
 
         #endregion
 
@@ -224,6 +227,24 @@ namespace DrawingCanvasLib
                         }
                         break;
                     }
+                case ToolType.Rectangle:
+                    {
+                        if (_rect != null)
+                        {
+                            _rect.EndPoint = BaseToolClass.CurrentPoint;
+                            this.Canvas.InvalidateVisual();
+                        }
+                        break;
+                    }
+                case ToolType.Ellipse:
+                    {
+                        if (_ellipse != null)
+                        {
+                            _ellipse.EndPoint = BaseToolClass.CurrentPoint;
+                            this.Canvas.InvalidateVisual();
+                        }
+                        break;
+                    }
             }
 
             #region dragging
@@ -275,6 +296,20 @@ namespace DrawingCanvasLib
                         ArtWorkList.Add(_line);
                         break;
                     }
+                case ToolType.Rectangle:
+                    {
+                        _rect = new(BaseToolClass.CurrentPoint);
+                        _rect.DrawingName = "Rect";
+                        ArtWorkList.Add(_rect);
+                        break;
+                    }
+                case ToolType.Ellipse:
+                    {
+                        _ellipse = new(BaseToolClass.CurrentPoint);
+                        _ellipse.DrawingName = "Ellipse";
+                        ArtWorkList.Add(_ellipse);
+                        break;
+                    }
             }
         }
 
@@ -287,6 +322,16 @@ namespace DrawingCanvasLib
                 case ToolType.Line:
                     {
                         _line = null;
+                        break;
+                    }
+                case ToolType.Rectangle:
+                    {
+                        _rect = null;
+                        break;
+                    }
+                case ToolType.Ellipse:
+                    {
+                        _ellipse = null;
                         break;
                     }
             }

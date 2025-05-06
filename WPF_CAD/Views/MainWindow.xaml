@@ -76,7 +76,10 @@
                                 <Label Content="{Binding DrawingWidth}"/>
                                 <TextBlock Text="Height: " VerticalAlignment="Center" Margin="10,0,0,0"/>
                                 <Label Content="{Binding DrawingHeight}"/>
-                                <TextBlock Text="Center X: " VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                <TextBlock Text="Center X: " VerticalAlignment="Center"/>
                                 <Label Content="{Binding DrawingCenterX}"/>
                                 <TextBlock Text="Center Y: " VerticalAlignment="Center" Margin="10,0,0,0"/>
                                 <Label Content="{Binding DrawingCenterY}"/>
