@@ -14,7 +14,7 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <hc:TabControl Grid.Row="0" IsAnimationEnabled="True" IsTabFillEnabled="True">
+        <!--<hc:TabControl Grid.Row="0" IsAnimationEnabled="True" IsTabFillEnabled="True">
             <hc:TabItem Header="Line" Visibility="{Binding IsShowLinePage}">
                 
             </hc:TabItem>
@@ -46,7 +46,41 @@
             <hc:TabItem Header="Marking">
 
             </hc:TabItem>
-        </hc:TabControl>
+        </hc:TabControl>-->
+
+        <TabControl Grid.Row="0">
+            <TabItem Header="Line" Visibility="{Binding IsShowLinePage}">
+
+            </TabItem>
+
+            <TabItem Header="Data" Visibility="{Binding IsShowDataPage}">
+
+            </TabItem>
+
+            <TabItem Header="Text" Visibility="{Binding IsShowTextPage}">
+
+            </TabItem>
+
+            <TabItem Header="Barcode" Visibility="{Binding IsShowBarcodePage}">
+
+            </TabItem>
+
+            <TabItem Header="Serialize" Visibility="{Binding IsShowSerializePage}">
+
+            </TabItem>
+
+            <TabItem Header="Format" Visibility="{Binding IsShowFormatPage}">
+
+            </TabItem>
+
+            <TabItem Header="Hatch" Visibility="{Binding IsShowHatchPage}">
+
+            </TabItem>
+
+            <TabItem Header="Marking">
+
+            </TabItem>
+        </TabControl>
 
         <UniformGrid Columns="2" Grid.Row="1">
             <Button Content="OK" Command="{Binding OKCommand}" Style="{StaticResource ButtonSuccess}" Width="{Binding ActualWidth, ElementName=button, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DrawingPropertiesWindow}}}"/>
