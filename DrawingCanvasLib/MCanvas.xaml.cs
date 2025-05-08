@@ -143,14 +143,14 @@ namespace DrawingCanvasLib
         /// <summary>
         /// 直线
         /// </summary>
-        private LineClass _line { get; set; } = null;
-        private RectangleClass _rect { get; set; } = null;
-        private EllipseClass _ellipse { get; set; } = null;
+        private LineClass ?_line { get; set; } = null;
+        private RectangleClass ?_rect { get; set; } = null;
+        private EllipseClass? _ellipse { get; set; } = null;
 
         #endregion
 
         #region event
-        public static EventHandler OnDoubleClickEvent;
+        public static EventHandler? OnDoubleClickEvent;
         #endregion
 
         public MCanvas()
@@ -332,7 +332,7 @@ namespace DrawingCanvasLib
                 // 双击事件处理逻辑
                 if (SelectedDrawing != null)
                 {
-                    OnDoubleClickEvent?.Invoke(null, null);
+                    OnDoubleClickEvent?.Invoke(null, EventArgs.Empty);
                 }
             }
             else

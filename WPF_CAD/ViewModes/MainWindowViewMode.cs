@@ -20,7 +20,7 @@ namespace WPF_CAD.ViewModes
 {
     public class MainWindowViewMode : ObservableObject
     {
-        private ProcessMode _processMode => App.ServiceProvider.GetRequiredService<ProcessMode>();
+        private ProcessMode? _processMode => App.ServiceProvider?.GetRequiredService<ProcessMode>();
 
         public MainWindowViewMode()
         {
@@ -73,11 +73,11 @@ namespace WPF_CAD.ViewModes
                 SetProperty(ref _isAutoMode, value);
                 if (value)
                 {
-                    _processMode.EnteringAutoMode();
+                    _processMode?.EnteringAutoMode();
                 }
                 else
                 {
-                    _processMode.ExitingAutoMode();
+                    _processMode?.ExitingAutoMode();
                 }
             }
         }
@@ -89,8 +89,8 @@ namespace WPF_CAD.ViewModes
             set => SetProperty(ref _drawingList, value);
         }
 
-        private BaseToolClass _selectedDrawing = null;
-        public BaseToolClass SelectedDrawing
+        private BaseToolClass? _selectedDrawing = null;
+        public BaseToolClass? SelectedDrawing
         {
             get => _selectedDrawing;
             set

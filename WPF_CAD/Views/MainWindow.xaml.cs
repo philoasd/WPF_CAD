@@ -21,7 +21,7 @@ namespace WPF_CAD
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MainWindowViewMode _mainWindowViewMode => App.ServiceProvider.GetRequiredService<MainWindowViewMode>();
+        private MainWindowViewMode? _mainWindowViewMode => App.ServiceProvider?.GetRequiredService<MainWindowViewMode>();
 
         /// <summary>
         /// 是否正在关闭窗口
@@ -73,13 +73,16 @@ namespace WPF_CAD
         /// </summary>
         private void UpdateDateTime()
         {
-            Task.Run(() =>
+            _ = Task.Run(() =>
             {
                 while (!IsWindowClosing)
                 {
                     Dispatcher.Invoke(() =>
                     {
-                        _mainWindowViewMode.DataTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        if (_mainWindowViewMode != null) // Additional null check to ensure safety
+                        {
+                            _mainWindowViewMode.DataTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        }
                     });
                     Thread.Sleep(1000);
                 }
