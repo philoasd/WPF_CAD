@@ -176,28 +176,42 @@ namespace DrawingCanvasLib
             InitializeComponent();
 
             this.Loaded += MCanvas_Loaded;
-            this.Unloaded += MCanvas_Unloaded;
-        }
-
-        private void MCanvas_Unloaded(object sender, RoutedEventArgs e)
-        {
-            ArtWorkList.Clear();
-            this.Canvas.InvalidateVisual();
-
-            this.Canvas.PaintSurface -= Canvas_PaintSurface;
-            this.Canvas.MouseUp -= Canvas_MouseUp;
-            this.Canvas.MouseDown -= Canvas_MouseDown;
-            this.Canvas.MouseMove -= Canvas_MouseMove;
-            this.Canvas.MouseWheel -= Canvas_MouseWheel;
         }
 
         private void MCanvas_Loaded(object sender, RoutedEventArgs e)
         {
             this.Canvas.PaintSurface += Canvas_PaintSurface;
-            this.Canvas.MouseLeftButtonUp += Canvas_MouseUp;
-            this.Canvas.MouseLeftButtonDown += Canvas_MouseDown;
+            this.Canvas.MouseLeftButtonUp += Canvas_LeftButtonUp;
+            //this.Canvas.MouseLeftButtonDown += Canvas_LeftButtonDown;
             this.Canvas.MouseMove += Canvas_MouseMove;
             this.Canvas.MouseWheel += Canvas_MouseWheel;
+            this.Canvas.MouseDown += Canvas_MouseDown;
+        }
+
+        private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _clickPoint = BaseDrawingClass.CurrentPoint;
+
+            // 根据鼠标按下的按钮类型区分：左键、中键、右键
+            switch (e.ChangedButton)
+            {
+                case MouseButton.Left:
+                    {
+                        // 左键按下
+                        Canvas_LeftButtonDown(sender, e);
+                        break;
+                    }
+                case MouseButton.Middle:
+                    {
+                        // 中键按下
+                        break;
+                    }
+                case MouseButton.Right:
+                    {
+                        // 右键按下
+                        break;
+                    }
+            }
         }
 
         private void Canvas_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -277,7 +291,7 @@ namespace DrawingCanvasLib
             }
 
             #region dragging
-            if (e.LeftButton.HasFlag(MouseButtonState.Pressed))
+            if (e.LeftButton.HasFlag(MouseButtonState.Pressed)) // drawing
             {
                 var offsetX = BaseDrawingClass.CurrentPoint.X - _clickPoint.X;
                 var offsetY = BaseDrawingClass.CurrentPoint.Y - _clickPoint.Y;
@@ -299,6 +313,20 @@ namespace DrawingCanvasLib
 
                 _clickPoint = BaseDrawingClass.CurrentPoint;
             }
+            else if(e.MiddleButton.HasFlag(MouseButtonState.Pressed)) // canvas
+            {
+#if DEBUG
+                Debug.WriteLine($"Middle Button: {BaseDrawingClass.CurrentPoint}");
+#endif
+                // 如果当前缩放比例大于最小值，则允许平移
+                if (_scale <= _minZoom) { return; }
+
+                var offsetX = BaseDrawingClass.CurrentPoint.X - _clickPoint.X;
+                var offsetY = BaseDrawingClass.CurrentPoint.Y - _clickPoint.Y;
+                _translate = new SKPoint(_translate.X + offsetX, _translate.Y + offsetY);
+                _clickPoint = BaseDrawingClass.CurrentPoint;
+                this.Canvas.InvalidateVisual();
+            }
             else
             {
                 ChangeMouseShape(BaseDrawingClass.CurrentPoint);
@@ -306,9 +334,12 @@ namespace DrawingCanvasLib
             #endregion
         }
 
-        private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Canvas_LeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _clickPoint = BaseDrawingClass.CurrentPoint;
+#if DEBUG
+            Debug.WriteLine($"LeftButtonDown: {BaseDrawingClass.CurrentPoint}");
+#endif
+            //_clickPoint = BaseDrawingClass.CurrentPoint;
 
             switch (DrawingTool)
             {
@@ -362,7 +393,7 @@ namespace DrawingCanvasLib
             #endregion
         }
 
-        private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
+        private void Canvas_LeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Mouse.OverrideCursor = null;
 
