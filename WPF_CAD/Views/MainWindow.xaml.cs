@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using DrawingCanvasLib;
+using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel;
 using System.Text;
 using System.Windows;
@@ -55,12 +56,16 @@ namespace WPF_CAD
         {
             IsWindowClosing = false;
 
-            UpdateDateTime();
+            #region Drawing Canvas Event Binding
+            MCanvas.OnDoubleClickEvent += OnDoubleClick;
+            #endregion
 
-            for (int i = 0; i < 10; i++)
-            {
-                
-            }
+            UpdateDateTime();
+        }
+
+        private void OnDoubleClick(object? sender, EventArgs e)
+        {
+            MsgBoxClass.ShowMsg("Double Click", MsgBoxClass.MsgBoxType.Information);
         }
 
         /// <summary>

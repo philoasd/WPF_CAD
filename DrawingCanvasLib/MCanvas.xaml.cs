@@ -2,6 +2,7 @@
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -73,9 +74,9 @@ namespace DrawingCanvasLib
         {
             if (d is MCanvas canvas)
             {
-                if(e.NewValue is ToolType toolType)
+                if (e.NewValue is ToolType toolType)
                 {
-                    if(toolType == ToolType.Clear)
+                    if (toolType == ToolType.Clear)
                     {
                         canvas.ArtWorkList.Clear();
                         canvas.Canvas.InvalidateVisual();
@@ -130,6 +131,11 @@ namespace DrawingCanvasLib
         /// 当前点击点
         /// </summary>
         private SKPoint _clickPoint { get; set; } = new SKPoint(0, 0);
+
+        /// <summary>
+        /// 上次点击时间，用于判断双击
+        /// </summary>
+        private DateTime _lastClickTime { get; set; } = DateTime.Now;
         #endregion
 
         #region Drawing Tool Value
@@ -141,6 +147,10 @@ namespace DrawingCanvasLib
         private RectangleClass _rect { get; set; } = null;
         private EllipseClass _ellipse { get; set; } = null;
 
+        #endregion
+
+        #region event
+        public static EventHandler OnDoubleClickEvent;
         #endregion
 
         public MCanvas()
@@ -166,8 +176,8 @@ namespace DrawingCanvasLib
         private void MCanvas_Loaded(object sender, RoutedEventArgs e)
         {
             this.Canvas.PaintSurface += Canvas_PaintSurface;
-            this.Canvas.MouseUp += Canvas_MouseUp;
-            this.Canvas.MouseDown += Canvas_MouseDown;
+            this.Canvas.MouseLeftButtonUp += Canvas_MouseUp;
+            this.Canvas.MouseLeftButtonDown += Canvas_MouseDown;
             this.Canvas.MouseMove += Canvas_MouseMove;
             this.Canvas.MouseWheel += Canvas_MouseWheel;
         }
@@ -211,6 +221,7 @@ namespace DrawingCanvasLib
                 (float)((pos.Y - _translate.Y) / _scale)
             );
             BaseToolClass.CurrentPoint = CurPos;
+            UpdateSelectedDrawing();
 
             switch (DrawingTool)
             {
@@ -311,6 +322,24 @@ namespace DrawingCanvasLib
                         break;
                     }
             }
+
+            #region 双击事件
+            DateTime now = DateTime.Now; // 获取当前点击时间
+            TimeSpan timeSpan = now - _lastClickTime; // 计算时间间隔
+            Debug.WriteLine($"TimeSpan: {timeSpan.TotalMilliseconds}ms");
+            if (timeSpan.TotalMilliseconds < 300) // 如果时间间隔小于100毫秒，则认为是双击
+            {
+                // 双击事件处理逻辑
+                if (SelectedDrawing != null)
+                {
+                    OnDoubleClickEvent?.Invoke(null, null);
+                }
+            }
+            else
+            {
+                _lastClickTime = now; // 更新上次点击时间
+            }
+            #endregion
         }
 
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
@@ -412,6 +441,21 @@ namespace DrawingCanvasLib
             }
 
             this.Canvas.InvalidateVisual();
+        }
+
+        /// <summary>
+        /// 更新选中图形
+        /// </summary>
+        private void UpdateSelectedDrawing()
+        {
+            foreach (var tool in ArtWorkList)
+            {
+                if (tool.IsSelected)
+                {
+                    SelectedDrawing = tool;
+                    break;
+                }
+            }
         }
 
         private void UpdateDrawingPosition(SKPoint offset)
