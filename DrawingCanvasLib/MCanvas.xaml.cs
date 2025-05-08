@@ -323,7 +323,8 @@ namespace DrawingCanvasLib
 
                 var offsetX = BaseDrawingClass.CurrentPoint.X - _clickPoint.X;
                 var offsetY = BaseDrawingClass.CurrentPoint.Y - _clickPoint.Y;
-                _translate = new SKPoint(_translate.X + offsetX, _translate.Y + offsetY);
+                // 根据缩放比例调整平移量
+                _translate = new SKPoint(_translate.X + offsetX * _scale, _translate.Y + offsetY * _scale);
                 _clickPoint = BaseDrawingClass.CurrentPoint;
                 this.Canvas.InvalidateVisual();
             }
