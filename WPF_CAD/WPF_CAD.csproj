@@ -6,11 +6,13 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>ico\326614_drawing_icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="ico\17436_as_guardar_save_icon.ico" />
     <None Remove="ico\2931173_document_empty_file_new_sheet_icon.ico" />
+    <None Remove="ico\326614_drawing_icon.ico" />
     <None Remove="ico\8726075_line_alt_icon.ico" />
     <None Remove="ico\barcode_code_icon.ico" />
     <None Remove="ico\camera_icon.png" />
@@ -35,6 +37,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ico\326614_drawing_icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="HandyControl" Version="3.5.1" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />
@@ -51,6 +57,7 @@
   <ItemGroup>
     <Resource Include="ico\17436_as_guardar_save_icon.ico" />
     <Resource Include="ico\2931173_document_empty_file_new_sheet_icon.ico" />
+    <Resource Include="ico\326614_drawing_icon.ico" />
     <Resource Include="ico\8726075_line_alt_icon.ico" />
     <Resource Include="ico\barcode_code_icon.ico" />
     <Resource Include="ico\camera_icon.png" />

@@ -11,8 +11,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using WPF_CAD.Modes;
 using WPF_CAD.Utils;
 using WPF_CAD.ViewModes;
+using WPF_CAD.Views;
 
 namespace WPF_CAD
 {
@@ -21,18 +24,14 @@ namespace WPF_CAD
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MainWindowViewMode? _mainWindowViewMode => App.ServiceProvider?.GetRequiredService<MainWindowViewMode>();
+        private DispatcherTimer CurTimer { get; set; }
+        private MainWindowViewMode? MainWindowViewMode => this.DataContext as MainWindowViewMode;
 
-        /// <summary>
-        /// 是否正在关闭窗口
-        /// </summary>
-        public bool IsWindowClosing { get; set; } = false;
-
-        public MainWindow()
+        public MainWindow(MainWindowViewMode vm)
         {
             InitializeComponent();
 
-            this.DataContext = _mainWindowViewMode;
+            this.DataContext = vm;
 
             this.Loaded += MainWindow_Loaded;
             this.Closing += MainWindow_Closing;
@@ -43,7 +42,7 @@ namespace WPF_CAD
             // 关闭窗口时，弹出提示框：提示是否退出
             if (MsgBoxClass.ShowQMsg("Are you sure you want to exit?") == MessageBoxResult.Yes)
             {
-                IsWindowClosing = true; // 设置正在关闭窗口的标志
+                CurTimer.Stop(); // 停止计时器
                 e.Cancel = false; // 允许关闭窗口
             }
             else
@@ -54,8 +53,6 @@ namespace WPF_CAD
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            IsWindowClosing = false;
-
             #region Drawing Canvas Event Binding
             MCanvas.OnDoubleClickEvent += OnDoubleClick;
             #endregion
@@ -65,7 +62,15 @@ namespace WPF_CAD
 
         private void OnDoubleClick(object? sender, EventArgs e)
         {
-            MsgBoxClass.ShowMsg("Double Click", MsgBoxClass.MsgBoxType.Information);
+            // 打开drawing properties window
+            var drawingPropertiesWindow = App.ServiceProvider?.GetRequiredService<DrawingPropertiesWindow>();
+            if (drawingPropertiesWindow == null)
+            {
+                MsgBoxClass.ShowMsg("Failed to open drawing properties window.", MsgBoxClass.MsgBoxType.Error);
+                return;
+            }
+            drawingPropertiesWindow.Owner = this;
+            drawingPropertiesWindow.ShowDialog();
         }
 
         /// <summary>
@@ -73,20 +78,20 @@ namespace WPF_CAD
         /// </summary>
         private void UpdateDateTime()
         {
-            _ = Task.Run(() =>
+            CurTimer = new DispatcherTimer
             {
-                while (!IsWindowClosing)
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            CurTimer.Tick += (s, e) =>
+            {
+                var now = DateTime.Now;
+                var dateTimeString = now.ToString("yyyy-MM-dd HH:mm:ss");
+                if (MainWindowViewMode != null)
                 {
-                    Dispatcher.Invoke(() =>
-                    {
-                        if (_mainWindowViewMode != null) // Additional null check to ensure safety
-                        {
-                            _mainWindowViewMode.DataTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                        }
-                    });
-                    Thread.Sleep(1000);
+                    MainWindowViewMode.DataTime = dateTimeString;
                 }
-            });
+            };
+            CurTimer.Start();
         }
     }
 }

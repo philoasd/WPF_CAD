@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DrawingCanvasLib;
@@ -20,7 +21,7 @@ namespace WPF_CAD.ViewModes
 {
     public class MainWindowViewMode : ObservableObject
     {
-        private ProcessMode? _processMode => App.ServiceProvider?.GetRequiredService<ProcessMode>();
+        private ProcessMode? ProcessMode => App.ServiceProvider?.GetRequiredService<ProcessMode>();
 
         public MainWindowViewMode()
         {
@@ -57,7 +58,7 @@ namespace WPF_CAD.ViewModes
             set => SetProperty(ref _status, value);
         }
 
-        private string _dataTime = string.Empty;
+        private string _dataTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         public string DataTime
         {
             get => _dataTime;
@@ -73,24 +74,24 @@ namespace WPF_CAD.ViewModes
                 SetProperty(ref _isAutoMode, value);
                 if (value)
                 {
-                    _processMode?.EnteringAutoMode();
+                    ProcessMode?.EnteringAutoMode();
                 }
                 else
                 {
-                    _processMode?.ExitingAutoMode();
+                    ProcessMode?.ExitingAutoMode();
                 }
             }
         }
 
-        private ObservableCollection<BaseToolClass> _drawingList = new();
-        public ObservableCollection<BaseToolClass> DrawingList
+        private ObservableCollection<BaseDrawingClass> _drawingList = new();
+        public ObservableCollection<BaseDrawingClass> DrawingList
         {
             get => _drawingList;
             set => SetProperty(ref _drawingList, value);
         }
 
-        private BaseToolClass? _selectedDrawing = null;
-        public BaseToolClass? SelectedDrawing
+        private BaseDrawingClass? _selectedDrawing = null;
+        public BaseDrawingClass? SelectedDrawing
         {
             get => _selectedDrawing;
             set

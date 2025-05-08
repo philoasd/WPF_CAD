@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace WPF_Draw.DrawTool
 {
-    public class EllipseClass : BaseToolClass
+    public class EllipseClass : BaseDrawingClass
     {
         public EllipseClass(SKPoint point)
         {

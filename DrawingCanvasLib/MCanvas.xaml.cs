@@ -47,14 +47,32 @@ namespace DrawingCanvasLib
         }
 
         public static readonly DependencyProperty SelectedDrawingProperty =
-            DependencyProperty.Register("SelectedDrawing", typeof(BaseToolClass), typeof(MCanvas), new PropertyMetadata(null));
+            DependencyProperty.Register("SelectedDrawing", typeof(BaseDrawingClass), typeof(MCanvas), new PropertyMetadata(null, OnSelectedDrawingChanged));
         /// <summary>
         /// 当前选中的图形
         /// </summary>
-        public BaseToolClass SelectedDrawing
+        public BaseDrawingClass SelectedDrawing
         {
-            get => (BaseToolClass)GetValue(SelectedDrawingProperty);
+            get => (BaseDrawingClass)GetValue(SelectedDrawingProperty);
             set => SetValue(SelectedDrawingProperty, value);
+        }
+        private static void OnSelectedDrawingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is MCanvas canvas)
+            {
+                if (e.NewValue is BaseDrawingClass tool)
+                {
+                    foreach(var item in canvas.ArtWorkList)
+                    {
+                        item.IsSelected = false;
+                        if (item == tool)
+                        {
+                            item.IsSelected = true;
+                        }
+                    }
+                    canvas.Canvas.InvalidateVisual();
+                }
+            }
         }
 
         public static readonly DependencyProperty DrawingToolProperty =
@@ -86,13 +104,13 @@ namespace DrawingCanvasLib
         }
 
         public static readonly DependencyProperty ArtWorkListProperty =
-            DependencyProperty.Register("ArtWorkList", typeof(ObservableCollection<BaseToolClass>), typeof(MCanvas), new PropertyMetadata(new ObservableCollection<BaseToolClass>()));
+            DependencyProperty.Register("ArtWorkList", typeof(ObservableCollection<BaseDrawingClass>), typeof(MCanvas), new PropertyMetadata(new ObservableCollection<BaseDrawingClass>()));
         /// <summary>
         /// 当前绘制的图形列表
         /// </summary>
-        public ObservableCollection<BaseToolClass> ArtWorkList
+        public ObservableCollection<BaseDrawingClass> ArtWorkList
         {
-            get => (ObservableCollection<BaseToolClass>)GetValue(ArtWorkListProperty);
+            get => (ObservableCollection<BaseDrawingClass>)GetValue(ArtWorkListProperty);
             set
             {
                 SetValue(ArtWorkListProperty, value);
@@ -220,7 +238,7 @@ namespace DrawingCanvasLib
                 (float)((pos.X - _translate.X) / _scale),
                 (float)((pos.Y - _translate.Y) / _scale)
             );
-            BaseToolClass.CurrentPoint = CurPos;
+            BaseDrawingClass.CurrentPoint = CurPos;
             UpdateSelectedDrawing();
 
             switch (DrawingTool)
@@ -233,7 +251,7 @@ namespace DrawingCanvasLib
                     {
                         if (_line != null)
                         {
-                            _line.EndPoint = BaseToolClass.CurrentPoint;
+                            _line.EndPoint = BaseDrawingClass.CurrentPoint;
                             this.Canvas.InvalidateVisual();
                         }
                         break;
@@ -242,7 +260,7 @@ namespace DrawingCanvasLib
                     {
                         if (_rect != null)
                         {
-                            _rect.EndPoint = BaseToolClass.CurrentPoint;
+                            _rect.EndPoint = BaseDrawingClass.CurrentPoint;
                             this.Canvas.InvalidateVisual();
                         }
                         break;
@@ -251,7 +269,7 @@ namespace DrawingCanvasLib
                     {
                         if (_ellipse != null)
                         {
-                            _ellipse.EndPoint = BaseToolClass.CurrentPoint;
+                            _ellipse.EndPoint = BaseDrawingClass.CurrentPoint;
                             this.Canvas.InvalidateVisual();
                         }
                         break;
@@ -261,8 +279,8 @@ namespace DrawingCanvasLib
             #region dragging
             if (e.LeftButton.HasFlag(MouseButtonState.Pressed))
             {
-                var offsetX = BaseToolClass.CurrentPoint.X - _clickPoint.X;
-                var offsetY = BaseToolClass.CurrentPoint.Y - _clickPoint.Y;
+                var offsetX = BaseDrawingClass.CurrentPoint.X - _clickPoint.X;
+                var offsetY = BaseDrawingClass.CurrentPoint.Y - _clickPoint.Y;
                 var offset = new SKPoint(offsetX, offsetY);
 
                 switch (_activeHandleIndex)
@@ -279,44 +297,44 @@ namespace DrawingCanvasLib
                         }
                 }
 
-                _clickPoint = BaseToolClass.CurrentPoint;
+                _clickPoint = BaseDrawingClass.CurrentPoint;
             }
             else
             {
-                ChangeMouseShape(BaseToolClass.CurrentPoint);
+                ChangeMouseShape(BaseDrawingClass.CurrentPoint);
             }
             #endregion
         }
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            _clickPoint = BaseToolClass.CurrentPoint;
+            _clickPoint = BaseDrawingClass.CurrentPoint;
 
             switch (DrawingTool)
             {
                 case ToolType.Select:
                     {
-                        CheckClickPoint(BaseToolClass.CurrentPoint);
+                        CheckClickPoint(BaseDrawingClass.CurrentPoint);
                         this.Canvas.InvalidateVisual();
                         break;
                     }
                 case ToolType.Line:
                     {
-                        _line = new(BaseToolClass.CurrentPoint);
+                        _line = new(BaseDrawingClass.CurrentPoint);
                         _line.DrawingName = "Line";
                         ArtWorkList.Add(_line);
                         break;
                     }
                 case ToolType.Rectangle:
                     {
-                        _rect = new(BaseToolClass.CurrentPoint);
+                        _rect = new(BaseDrawingClass.CurrentPoint);
                         _rect.DrawingName = "Rect";
                         ArtWorkList.Add(_rect);
                         break;
                     }
                 case ToolType.Ellipse:
                     {
-                        _ellipse = new(BaseToolClass.CurrentPoint);
+                        _ellipse = new(BaseDrawingClass.CurrentPoint);
                         _ellipse.DrawingName = "Ellipse";
                         ArtWorkList.Add(_ellipse);
                         break;
@@ -326,8 +344,10 @@ namespace DrawingCanvasLib
             #region 双击事件
             DateTime now = DateTime.Now; // 获取当前点击时间
             TimeSpan timeSpan = now - _lastClickTime; // 计算时间间隔
-            Debug.WriteLine($"TimeSpan: {timeSpan.TotalMilliseconds}ms");
-            if (timeSpan.TotalMilliseconds < 300) // 如果时间间隔小于100毫秒，则认为是双击
+#if DEBUG
+            Debug.WriteLine($"click time: {timeSpan.TotalMilliseconds} ms");
+#endif
+            if (timeSpan.TotalMilliseconds < 180) // 如果时间间隔小于100毫秒，则认为是双击
             {
                 // 双击事件处理逻辑
                 if (SelectedDrawing != null)

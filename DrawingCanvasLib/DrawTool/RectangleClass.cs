@@ -14,7 +14,7 @@ using System.Windows.Media.Media3D;
 
 namespace WPF_Draw.DrawTool
 {
-    public class RectangleClass : BaseToolClass
+    public class RectangleClass : BaseDrawingClass
     {
         public float Radius { get; set; } = 0;
 

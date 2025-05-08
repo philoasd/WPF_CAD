@@ -10,6 +10,7 @@ using TouchSocket.Core;
 using LogLib;
 using WPF_CAD.ViewModes;
 using WPF_CAD.Modes;
+using WPF_CAD.Views;
 
 namespace WPF_CAD
 {
@@ -75,9 +76,13 @@ namespace WPF_CAD
 
         private void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<MainWindow>();
-            services.AddSingleton<MainWindowViewMode>();
+            services.AddTransient<MainWindow>();
+            services.AddTransient<MainWindowViewMode>();
+            
             services.AddSingleton<ProcessMode>();
+
+            services.AddTransient<DrawingPropertiesWindowViewMode>();
+            services.AddTransient<DrawingPropertiesWindow>();
             //services.AddSingleton<LoginWinodw>();
         }
 

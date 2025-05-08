@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DrawingCanvasLib.DrawTool
 {
-    public class LineClass : BaseToolClass
+    public class LineClass : BaseDrawingClass
     {
         public LineClass(SKPoint point)
         {

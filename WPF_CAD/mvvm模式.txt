@@ -1,0 +1,8 @@
+1. 合理的交互路径
+View ↔ ViewModel：通过数据绑定（Data Binding）实现双向通信。View 绑定到 ViewModel 的属性和命令（Command），从而响应用户交互并更新 UI。
+ViewModel ↔ Model：ViewModel 调用 Model 层的方法以获取或更新数据。Model 层专注于业务逻辑和数据处理。
+
+2. 不推荐的交互路径
+ViewModel → View：ViewModel 不应直接引用或操作 View。这样做会导致紧耦合，降低可测试性和可维护性。
+Model → ViewModel / View：Model 层不应主动通知 ViewModel 或 View。数据变化应通过 ViewModel 进行处理和传播。
+View → Model：View 不应直接访问或操作 Model 层的数据。所有数据交互应通过 ViewModel 进行。

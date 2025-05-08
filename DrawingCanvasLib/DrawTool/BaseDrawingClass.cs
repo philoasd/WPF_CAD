@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace DrawingCanvasLib.DrawTool
 {
-    public abstract class BaseToolClass
+    public abstract class BaseDrawingClass
     {
         public static SKPoint CurrentPoint { get; set; } = new();
         public SKPoint EndPoint { get; set; } = new();
