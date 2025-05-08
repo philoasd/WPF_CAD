@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,13 +34,22 @@ namespace WPF_CAD.Views
             this.DataContext = vm;
 
             this.Loaded += DrawingPropertiesWindow_Loaded;
+            this.Closing += DrawingPropertiesWindow_Closing;
+        }
+
+        private void DrawingPropertiesWindow_Closing(object? sender, CancelEventArgs e)
+        {
+            if (DrawingPropertiesWindowViewMode != null && MainWindowViewMode != null && MainWindowViewMode.SelectedDrawing != null)
+            {
+                DrawingPropertiesWindowViewMode.UpdateDrawingPropertiesCommand.Execute(MainWindowViewMode?.SelectedDrawing);
+            }
         }
 
         private void DrawingPropertiesWindow_Loaded(object sender, RoutedEventArgs e)
         {
             if (DrawingPropertiesWindowViewMode != null && MainWindowViewMode != null && MainWindowViewMode.SelectedDrawing != null)
             {
-                DrawingPropertiesWindowViewMode.UpdateDrawingPropertiesCommand.Execute(MainWindowViewMode?.SelectedDrawing);
+                DrawingPropertiesWindowViewMode.UpdateDrawingPropertiesWindowCommand.Execute(MainWindowViewMode?.SelectedDrawing);
             }
         }
     }

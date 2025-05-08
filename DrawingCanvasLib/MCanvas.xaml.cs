@@ -703,5 +703,10 @@ namespace DrawingCanvasLib
                 }
             }
         }
+
+        public void Fresh()
+        {
+            this.Canvas.InvalidateVisual();
+        }
     }
 }

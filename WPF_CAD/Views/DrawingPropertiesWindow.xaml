@@ -7,7 +7,7 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         x:Class="WPF_CAD.Views.DrawingPropertiesWindow"
         mc:Ignorable="d" xmlns:vm="clr-namespace:WPF_CAD.ViewModes" d:DataContext="{d:DesignInstance vm:DrawingPropertiesWindowViewMode}"
-        Title="Drawing Properties" Height="450" Width="600" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+        Title="Drawing Properties" Height="400" Width="647" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="9*"/>
@@ -50,11 +50,24 @@
 
         <TabControl Grid.Row="0">
             <TabItem Header="Line" Visibility="{Binding IsShowLinePage}">
-
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+                        <Label Content="From X: "/>
+                        <hc:NumericUpDown Value="{Binding LineFromX}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend}" Margin="5,0,0,0"/>
+                        <Label Content="From Y: " Margin="5,0,0,0"/>
+                        <hc:NumericUpDown Value="{Binding LineFromY}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend}" Margin="5,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+                        <Label Content="To X: "/>
+                        <hc:NumericUpDown Value="{Binding LineToX}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend}" Margin="5,0,0,0"/>
+                        <Label Content="To Y: " Margin="5,0,0,0"/>
+                        <hc:NumericUpDown Value="{Binding LineToY}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend}" Margin="5,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
             </TabItem>
 
             <TabItem Header="Data" Visibility="{Binding IsShowDataPage}">
-
+                
             </TabItem>
 
             <TabItem Header="Text" Visibility="{Binding IsShowTextPage}">

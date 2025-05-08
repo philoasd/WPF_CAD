@@ -24,7 +24,7 @@ namespace WPF_CAD
     /// </summary>
     public partial class MainWindow : Window
     {
-        private DispatcherTimer CurTimer { get; set; }
+        private DispatcherTimer? CurTimer { get; set; }
         private MainWindowViewMode? MainWindowViewMode => this.DataContext as MainWindowViewMode;
 
         public MainWindow(MainWindowViewMode vm)
@@ -42,7 +42,7 @@ namespace WPF_CAD
             // 关闭窗口时，弹出提示框：提示是否退出
             if (MsgBoxClass.ShowQMsg("Are you sure you want to exit?") == MessageBoxResult.Yes)
             {
-                CurTimer.Stop(); // 停止计时器
+                CurTimer?.Stop(); // 停止计时器
                 e.Cancel = false; // 允许关闭窗口
             }
             else
@@ -71,6 +71,9 @@ namespace WPF_CAD
             }
             drawingPropertiesWindow.Owner = this;
             drawingPropertiesWindow.ShowDialog();
+
+            // 关闭窗口时，更新绘图属性
+            this.DrawingCanvas.Fresh();
         }
 
         /// <summary>

@@ -7,11 +7,18 @@ using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DrawingCanvasLib.DrawTool;
+using SkiaSharp;
 
 namespace WPF_CAD.ViewModes
 {
     public class DrawingPropertiesWindowViewMode : ObservableObject
     {
+        #region Flag
+
+        private bool IsNeedUpdateDrawingProperties { get; set; } = false;
+
+        #endregion
+
         #region Command
 
         /// <summary>
@@ -21,6 +28,7 @@ namespace WPF_CAD.ViewModes
         {
             if (obj == null) { return; }
 
+            IsNeedUpdateDrawingProperties = true;
 
             // 关闭窗口
             obj.Close();
@@ -32,6 +40,8 @@ namespace WPF_CAD.ViewModes
         public RelayCommand<Window> CancelCommand => new((obj) =>
         {
             if (obj == null) { return; }
+
+            IsNeedUpdateDrawingProperties = false;
             // 关闭窗口
             obj.Close();
         });
@@ -39,9 +49,37 @@ namespace WPF_CAD.ViewModes
         /// <summary>
         /// 更新绘图属性的窗口信息命令
         /// </summary>
-        public RelayCommand<BaseDrawingClass> UpdateDrawingPropertiesCommand => new((obj) =>
+        public RelayCommand<BaseDrawingClass> UpdateDrawingPropertiesWindowCommand => new((obj) =>
         {
             if (obj == null) { return; }
+
+            switch (obj.ToolType)
+            {
+                case DrawingCanvasLib.ToolType.Line:
+                    {
+                        IsShowLinePage = Visibility.Visible;
+                        this.LineFromX = obj.StartPoint.X;
+                        this.LineFromY = obj.StartPoint.Y;
+                        this.LineToX = obj.EndPoint.X;
+                        this.LineToY = obj.EndPoint.Y;
+                        break;
+                    }
+            }
+        });
+
+        public RelayCommand<BaseDrawingClass> UpdateDrawingPropertiesCommand => new((obj) =>
+        {
+            if (obj == null || !IsNeedUpdateDrawingProperties) { return; }
+
+            switch (obj.ToolType)
+            {
+                case DrawingCanvasLib.ToolType.Line:
+                    {
+                        obj.StartPoint = new SKPoint((float)this.LineFromX, (float)this.LineFromY);
+                        obj.EndPoint = new SKPoint((float)this.LineToX, (float)this.LineToY);
+                        break;
+                    }
+            }
         });
 
         #endregion
@@ -53,6 +91,34 @@ namespace WPF_CAD.ViewModes
         {
             get => _isShowLinePage;
             set => SetProperty(ref _isShowLinePage, value);
+        }
+
+        private double _lineFromX = 0;
+        public double LineFromX
+        {
+            get => _lineFromX;
+            set => SetProperty(ref _lineFromX, value);
+        }
+
+        private double _lineFromY = 0;
+        public double LineFromY
+        {
+            get => _lineFromY;
+            set => SetProperty(ref _lineFromY, value);
+        }
+
+        private double _lineToX = 0;
+        public double LineToX
+        {
+            get => _lineToX;
+            set => SetProperty(ref _lineToX, value);
+        }
+
+        private double _lineToY = 0;
+        public double LineToY
+        {
+            get => _lineToY;
+            set => SetProperty(ref _lineToY, value);
         }
 
         #endregion
