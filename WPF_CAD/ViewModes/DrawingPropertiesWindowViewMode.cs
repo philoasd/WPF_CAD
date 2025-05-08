@@ -64,9 +64,16 @@ namespace WPF_CAD.ViewModes
                         this.LineToY = obj.EndPoint.Y;
                         break;
                     }
+                case DrawingCanvasLib.ToolType.Rectangle:
+                    {
+                        break;
+                    }
             }
         });
 
+        /// <summary>
+        /// 更新绘图属性命令
+        /// </summary>
         public RelayCommand<BaseDrawingClass> UpdateDrawingPropertiesCommand => new((obj) =>
         {
             if (obj == null || !IsNeedUpdateDrawingProperties) { return; }
@@ -77,6 +84,10 @@ namespace WPF_CAD.ViewModes
                     {
                         obj.StartPoint = new SKPoint((float)this.LineFromX, (float)this.LineFromY);
                         obj.EndPoint = new SKPoint((float)this.LineToX, (float)this.LineToY);
+                        break;
+                    }
+                case DrawingCanvasLib.ToolType.Rectangle:
+                    {
                         break;
                     }
             }
@@ -90,7 +101,19 @@ namespace WPF_CAD.ViewModes
         public Visibility IsShowLinePage
         {
             get => _isShowLinePage;
-            set => SetProperty(ref _isShowLinePage, value);
+            set
+            {
+                SetProperty(ref _isShowLinePage, value);
+                if (value == Visibility.Visible)
+                {
+                    IsShowDataPage = Visibility.Collapsed;
+                    IsShowTextPage = Visibility.Collapsed;
+                    IsShowBarcodePage = Visibility.Collapsed;
+                    IsShowSerializePage = Visibility.Collapsed;
+                    IsShowFormatPage = Visibility.Collapsed;
+                    IsShowHatchPage = Visibility.Collapsed;
+                }
+            }
         }
 
         private double _lineFromX = 0;
@@ -129,7 +152,19 @@ namespace WPF_CAD.ViewModes
         public Visibility IsShowDataPage
         {
             get => _isShowDataPage;
-            set => SetProperty(ref _isShowDataPage, value);
+            set
+            {
+                SetProperty(ref _isShowDataPage, value);
+                if (value == Visibility.Visible)
+                {
+                    //IsShowLinePage = Visibility.Collapsed;
+                    //IsShowTextPage = Visibility.Collapsed;
+                    //IsShowBarcodePage = Visibility.Collapsed;
+                    //IsShowSerializePage = Visibility.Collapsed;
+                    //IsShowFormatPage = Visibility.Collapsed;
+                    //IsShowHatchPage = Visibility.Collapsed;
+                }
+            }
         }
 
         #endregion
@@ -140,7 +175,19 @@ namespace WPF_CAD.ViewModes
         public Visibility IsShowTextPage
         {
             get => _isShowTextPage;
-            set => SetProperty(ref _isShowTextPage, value);
+            set
+            {
+                SetProperty(ref _isShowTextPage, value);
+                if (value == Visibility.Visible)
+                {
+                    IsShowDataPage = Visibility.Visible;
+                    IsShowLinePage = Visibility.Collapsed;
+                    IsShowBarcodePage = Visibility.Collapsed;
+                    IsShowSerializePage = Visibility.Visible;
+                    IsShowFormatPage = Visibility.Visible;
+                    IsShowHatchPage = Visibility.Visible;
+                }
+            }
         }
 
         #endregion
@@ -151,9 +198,20 @@ namespace WPF_CAD.ViewModes
         public Visibility IsShowBarcodePage
         {
             get => _isShowBarcodePage;
-            set => SetProperty(ref _isShowBarcodePage, value);
+            set
+            {
+                SetProperty(ref _isShowBarcodePage, value);
+                if (value == Visibility.Visible)
+                {
+                    IsShowDataPage = Visibility.Visible;
+                    IsShowTextPage = Visibility.Collapsed;
+                    IsShowLinePage = Visibility.Collapsed;
+                    IsShowSerializePage = Visibility.Visible;
+                    IsShowFormatPage = Visibility.Visible;
+                    IsShowHatchPage = Visibility.Visible;
+                }
+            }
         }
-
         #endregion
 
         #region Serialization
@@ -162,7 +220,19 @@ namespace WPF_CAD.ViewModes
         public Visibility IsShowSerializePage
         {
             get => _isShowSerializePage;
-            set => SetProperty(ref _isShowSerializePage, value);
+            set
+            {
+                SetProperty(ref _isShowSerializePage, value);
+                if (value == Visibility.Visible)
+                {
+                    //IsShowDataPage = Visibility.Collapsed;
+                    //IsShowTextPage = Visibility.Collapsed;
+                    //IsShowBarcodePage = Visibility.Collapsed;
+                    //IsShowLinePage = Visibility.Collapsed;
+                    //IsShowFormatPage = Visibility.Collapsed;
+                    //IsShowHatchPage = Visibility.Collapsed;
+                }
+            }
         }
 
         #endregion
@@ -173,7 +243,19 @@ namespace WPF_CAD.ViewModes
         public Visibility IsShowFormatPage
         {
             get => _isShowFormatPage;
-            set => SetProperty(ref _isShowFormatPage, value);
+            set
+            {
+                SetProperty(ref _isShowFormatPage, value);
+                if (value == Visibility.Visible)
+                {
+                    //IsShowDataPage = Visibility.Collapsed;
+                    //IsShowTextPage = Visibility.Collapsed;
+                    //IsShowBarcodePage = Visibility.Collapsed;
+                    //IsShowSerializePage = Visibility.Collapsed;
+                    //IsShowLinePage = Visibility.Collapsed;
+                    //IsShowHatchPage = Visibility.Collapsed;
+                }
+            }
         }
 
         #endregion
@@ -184,7 +266,19 @@ namespace WPF_CAD.ViewModes
         public Visibility IsShowHatchPage
         {
             get => _isShowHatchPage;
-            set => SetProperty(ref _isShowHatchPage, value);
+            set
+            {
+                SetProperty(ref _isShowHatchPage, value);
+                if (value == Visibility.Visible)
+                {
+                    //IsShowDataPage = Visibility.Collapsed;
+                    //IsShowTextPage = Visibility.Collapsed;
+                    //IsShowBarcodePage = Visibility.Collapsed;
+                    //IsShowSerializePage = Visibility.Collapsed;
+                    //IsShowFormatPage = Visibility.Collapsed;
+                    //IsShowLinePage = Visibility.Collapsed;
+                }
+            }
         }
 
         #endregion
