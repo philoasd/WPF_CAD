@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DrawingCanvasLib;
 using DrawingCanvasLib.DrawTool;
 using SkiaSharp;
 
@@ -25,6 +26,24 @@ namespace WPF_CAD.ViewModes
             {
                 SetProperty(ref _selectedIndex, value);
             }
+        }
+
+        #endregion
+
+        #region public value
+
+        private LaserProperties _outlineProperties = new();
+        public LaserProperties OutlineProperties
+        {
+            get => _outlineProperties;
+            set => SetProperty(ref _outlineProperties, value);
+        }
+
+        private LaserProperties _hatchProperties = new();
+        public LaserProperties HatchProperties
+        {
+            get => _hatchProperties;
+            set => SetProperty(ref _hatchProperties, value);
         }
 
         #endregion
@@ -63,18 +82,24 @@ namespace WPF_CAD.ViewModes
         {
             if (obj == null) { return; }
 
+            this.OutlineProperties = obj.OutlineProperties;
+            this.HatchProperties = obj.HatchProperties;
+            this.IsOutlineEnable = obj.IsOutLine;
+
             switch (obj.ToolType)
             {
-                case DrawingCanvasLib.ToolType.Line:
+                case ToolType.Line:
                     {
                         IsShowLinePage = Visibility.Visible;
                         this.LineFromX = obj.StartPoint.X;
                         this.LineFromY = obj.StartPoint.Y;
                         this.LineToX = obj.EndPoint.X;
                         this.LineToY = obj.EndPoint.Y;
+
+
                         break;
                     }
-                case DrawingCanvasLib.ToolType.Rectangle:
+                case ToolType.Rectangle:
                     {
                         IsShowFormatPage = Visibility.Visible;
                         SelectedIndex = 5;
@@ -87,7 +112,6 @@ namespace WPF_CAD.ViewModes
                         this.FormatCenterY = rect.MidY;
 
                         UpdateHatchWindowValue(obj);
-
                         break;
                     }
             }
@@ -100,15 +124,19 @@ namespace WPF_CAD.ViewModes
         {
             if (obj == null || !IsNeedUpdateDrawingProperties) { return; }
 
+            obj.OutlineProperties = this.OutlineProperties;
+            obj.HatchProperties = this.HatchProperties;
+            obj.IsOutLine = this.IsOutlineEnable;
+
             switch (obj.ToolType)
             {
-                case DrawingCanvasLib.ToolType.Line:
+                case ToolType.Line:
                     {
                         obj.StartPoint = new SKPoint((float)this.LineFromX, (float)this.LineFromY);
                         obj.EndPoint = new SKPoint((float)this.LineToX, (float)this.LineToY);
                         break;
                     }
-                case DrawingCanvasLib.ToolType.Rectangle:
+                case ToolType.Rectangle:
                     {
                         var newStartPoint = new SKPoint((float)(this.FormatCenterX + this.FormatRelativeMoveX) - (float)this.FormatWidth / 2, (float)(this.FormatCenterY + this.FormatRelativeMoveY) - (float)this.FormatHeight / 2);
                         var newEndPoint = new SKPoint((float)(this.FormatCenterX + this.FormatRelativeMoveX) + (float)this.FormatWidth / 2, (float)(this.FormatCenterY + this.FormatRelativeMoveY) + (float)this.FormatHeight / 2);
@@ -119,6 +147,14 @@ namespace WPF_CAD.ViewModes
                         break;
                     }
             }
+        });
+
+        /// <summary>
+        /// 复制轮廓参数到填充参数命令
+        /// </summary>
+        public RelayCommand CopyOutlineToHatchCommand => new(() =>
+        {
+            this.HatchProperties = this.OutlineProperties;
         });
 
         #endregion
@@ -409,6 +445,13 @@ namespace WPF_CAD.ViewModes
         #endregion
 
         #region Marking
+
+        private bool _isOutlineEnable = true;
+        public bool IsOutlineEnable
+        {
+            get => _isOutlineEnable;
+            set => SetProperty(ref _isOutlineEnable, value);
+        }
 
         #endregion
     }

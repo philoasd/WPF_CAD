@@ -28,6 +28,9 @@ namespace DrawingCanvasLib.DrawTool
         public SKPath HatchPath { get; set; } = new();
         public float HatchSpacing { get; set; } = 1.0f; // 填充间距
 
+        public LaserProperties OutlineProperties { get; set; } = new LaserProperties();
+        public LaserProperties HatchProperties { get; set; } = new LaserProperties();
+
         private bool _isSeleted = false;
         public bool IsSelected
         {
@@ -253,6 +256,18 @@ namespace DrawingCanvasLib.DrawTool
             return sb1.ToString();
         }
 
-        public abstract ArtWorkProperties GetProperties();
+        public ArtWorkProperties GetProperties()
+        {
+            return new ArtWorkProperties
+            {
+                Type = ToolType,
+                StartPoint = StartPoint,
+                EndPoint = EndPoint,
+                IsHatch = IsHatch,
+                IsOutline = IsOutLine,
+                OutLineProperties = OutlineProperties,
+                HatchProperties = HatchProperties
+            };
+        }
     }
 }

@@ -22,6 +22,11 @@ namespace DrawingCanvasLib
         public float TextSize { get; set; } = 20f;
         public SKFont Font { get; set; } = new SKFont(SKTypeface.FromFamilyName("Arial"), 20f);
         #endregion
+
+        #region Laser属性
+        public LaserProperties OutLineProperties { get; set; } = new LaserProperties();
+        public LaserProperties HatchProperties { get; set; } = new LaserProperties();
+        #endregion
     }
 
     /// <summary>
@@ -37,5 +42,22 @@ namespace DrawingCanvasLib
         Polygon,
         Text,
         Barcode,
+    }
+
+    /// <summary>
+    /// 激光属性类
+    /// </summary>
+    public class LaserProperties
+    {
+        public int MarkingPasses { get; set; } = 1;
+        public int MarkingSpeed { get; set; } = 1;
+        public float LaserPower { get; set; } = 1;
+        public int LaserFrequnency { get; set; } = 1;
+        public double PulseWidth { get; set; } = 1;
+        public double LaserOnDelay { get; set; } = 0;
+        public double LaserOffDelay { get; set; } = 0.002;
+        public double PolygonDelay { get; set; } = 0;
+        public double MarkDelay { get; set; } = 0;
+        public double JumpDelay { get; set; } = 0;
     }
 }

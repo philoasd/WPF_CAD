@@ -30,17 +30,17 @@ namespace DrawingCanvasLib.DrawTool
             }
         }
 
-        public override ArtWorkProperties GetProperties()
-        {
-            var artWork = new ArtWorkProperties()
-            {
-                Type = ToolType,
-                StartPoint = StartPoint,
-                EndPoint = EndPoint,
-                IsHatch = IsHatch,
-                IsOutline = IsOutLine,
-            };
-            return artWork;
-        }
+        //public override ArtWorkProperties GetProperties()
+        //{
+        //    var artWork = new ArtWorkProperties()
+        //    {
+        //        Type = ToolType,
+        //        StartPoint = StartPoint,
+        //        EndPoint = EndPoint,
+        //        IsHatch = IsHatch,
+        //        IsOutline = IsOutLine,
+        //    };
+        //    return artWork;
+        //}
     }
 }

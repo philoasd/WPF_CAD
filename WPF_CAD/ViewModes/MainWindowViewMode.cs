@@ -16,6 +16,7 @@ using Microsoft.Win32;
 using SkiaSharp;
 using WPF_CAD.Modes;
 using WPF_CAD.Utils;
+using WPF_Draw.DrawTool;
 
 namespace WPF_CAD.ViewModes
 {
@@ -216,7 +217,7 @@ namespace WPF_CAD.ViewModes
 
         public RelayCommand SaveFileCommand => new(() =>
         {
-            if (string.IsNullOrEmpty(OpenFileName))
+            if (string.IsNullOrEmpty(OpenFileName)) { }
             {
                 // 打开一个文件选择框
                 SaveFileDialog saveFileDialog = new()
@@ -224,20 +225,28 @@ namespace WPF_CAD.ViewModes
                     Filter = "Font Files (*.json)|*.json",
                     DefaultExt = ".json",
                 };
-                if (saveFileDialog.ShowDialog() == true)
-                {
-                    OpenFilePath = saveFileDialog.FileName;
-                    OpenFileName = Path.GetFileNameWithoutExtension(saveFileDialog.FileName);
-                    Title = $"{_mianTitle} - {OpenFileName}";
-                }
-                else
-                {
-                    return;
-                }
+                if (saveFileDialog.ShowDialog() != true) { return; }
+                OpenFilePath = saveFileDialog.FileName;
+                OpenFileName = Path.GetFileNameWithoutExtension(saveFileDialog.FileName);
+                Title = $"{_mianTitle} - {OpenFileName}";
             }
 
-            string json = "TEST";
-            File.WriteAllText(OpenFilePath, json);
+            if (this.DrawingList.Count == 0)
+            {
+                MessageBox.Show("No drawing to save.");
+                return;
+            }
+
+            List<ArtWorkProperties> artWorkList = new List<ArtWorkProperties>();
+            foreach (var tool in this.DrawingList)
+            {
+                artWorkList.Add(tool.GetProperties());
+            }
+
+            // Serialize artWorkList to a file
+            string fileSerialization = Newtonsoft.Json.JsonConvert.SerializeObject(artWorkList, Newtonsoft.Json.Formatting.Indented);
+            File.WriteAllText(OpenFilePath, fileSerialization);
+
             MsgBoxClass.ShowMsg("Save File Successfully", MsgBoxClass.MsgBoxType.Information);
         });
 
@@ -270,6 +279,99 @@ namespace WPF_CAD.ViewModes
         {
             // 打开hardware setup window
         });
+        #endregion
+
+        #region Function
+        /// <summary>
+        /// 保存当前绘图
+        /// </summary>
+        public void SaveArtWork(string path)
+        {
+            if (this.DrawingList.Count == 0)
+            {
+                MessageBox.Show("No tools to save.");
+                return;
+            }
+
+            List<ArtWorkProperties> artWorkList = new List<ArtWorkProperties>();
+            foreach (var tool in this.DrawingList)
+            {
+                artWorkList.Add(tool.GetProperties());
+            }
+
+            // Serialize artWorkList to a file or database
+            // For example, using JSON serialization:
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(artWorkList, Newtonsoft.Json.Formatting.Indented);
+            File.WriteAllText(path, json);
+        }
+
+        /// <summary>
+        /// 加载绘图
+        /// </summary>
+        public void LoadArtWork(string path)
+        {
+            // Deserialize from a file or database
+            string json = File.ReadAllText(path);
+            List<ArtWorkProperties>? artWorkList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ArtWorkProperties>>(json);
+            if (artWorkList == null || artWorkList.Count == 0)
+            {
+                MessageBox.Show("No artwork to load.");
+                return;
+            }
+
+            this.DrawingList.Clear();
+            foreach (var artWork in artWorkList)
+            {
+                switch (artWork.Type)
+                {
+                    case ToolType.Line: // line
+                        {
+                            var line = new LineClass(artWork.StartPoint);
+                            line.EndPoint = artWork.EndPoint;
+                            this.DrawingList.Add(line);
+                            break;
+                        }
+                    case ToolType.Rectangle: // rectangle
+                        {
+                            var rect = new RectangleClass(artWork.StartPoint);
+                            rect.EndPoint = artWork.EndPoint;
+                            rect.IsHatch = artWork.IsHatch;
+                            rect.IsOutLine = artWork.IsOutline;
+                            this.DrawingList.Add(rect);
+                            break;
+                        }
+                    case ToolType.Ellipse: // Ellipse
+                        {
+                            var ellipse = new EllipseClass(artWork.StartPoint);
+                            ellipse.EndPoint = artWork.EndPoint;
+                            ellipse.IsHatch = artWork.IsHatch;
+                            ellipse.IsOutLine = artWork.IsOutline;
+                            this.DrawingList.Add(ellipse);
+                            break;
+                        }
+                    case ToolType.Polygon: // Polygon
+                        {
+                            break;
+                        }
+                    case ToolType.Text: // Text
+                        {
+                            //var text = new TextClass(artWork.StartPoint);
+                            //text.EndPoint = artWork.EndPoint;
+                            //text.IsHatch = artWork.IsHatch;
+                            //text.IsOutLine = artWork.IsOutline;
+                            //text.DrawText = artWork.DrawText;
+                            //text.TextSize = artWork.TextSize;
+                            //text.Font = artWork.Font;
+                            //this.DrawingList.Add(text);
+                            break;
+                        }
+                    case ToolType.Barcode: // BarCode
+                        {
+                            break;
+                        }
+                }
+            }
+        }
         #endregion
 
         #region toolbar commands
