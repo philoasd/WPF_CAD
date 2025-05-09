@@ -17,6 +17,16 @@ namespace WPF_CAD.ViewModes
 
         private bool IsNeedUpdateDrawingProperties { get; set; } = false;
 
+        private int _selectedIndex = 0;
+        public int SelectedIndex
+        {
+            get => _selectedIndex;
+            set
+            {
+                SetProperty(ref _selectedIndex, value);
+            }
+        }
+
         #endregion
 
         #region Command
@@ -66,6 +76,16 @@ namespace WPF_CAD.ViewModes
                     }
                 case DrawingCanvasLib.ToolType.Rectangle:
                     {
+                        IsShowFormatPage = Visibility.Visible;
+                        SelectedIndex = 5;
+
+                        // 当前选中路径的外接矩形大小
+                        var rect = obj.OutLinePath.TightBounds;
+                        this.FormatWidth = rect.Width;
+                        this.FormatHeight = rect.Height;
+                        this.FormatCenterX = rect.MidX;
+                        this.FormatCenterY = rect.MidY;
+
                         break;
                     }
             }
@@ -88,6 +108,10 @@ namespace WPF_CAD.ViewModes
                     }
                 case DrawingCanvasLib.ToolType.Rectangle:
                     {
+                        var newStartPoint = new SKPoint((float)(this.FormatCenterX + this.FormatRelativeMoveX) - (float)this.FormatWidth / 2, (float)(this.FormatCenterY + this.FormatRelativeMoveY) - (float)this.FormatHeight / 2);
+                        var newEndPoint = new SKPoint((float)(this.FormatCenterX + this.FormatRelativeMoveX) + (float)this.FormatWidth / 2, (float)(this.FormatCenterY + this.FormatRelativeMoveY) + (float)this.FormatHeight / 2);
+                        obj.StartPoint = newStartPoint;
+                        obj.EndPoint = newEndPoint;
                         break;
                     }
             }
@@ -248,14 +272,65 @@ namespace WPF_CAD.ViewModes
                 SetProperty(ref _isShowFormatPage, value);
                 if (value == Visibility.Visible)
                 {
-                    //IsShowDataPage = Visibility.Collapsed;
-                    //IsShowTextPage = Visibility.Collapsed;
-                    //IsShowBarcodePage = Visibility.Collapsed;
-                    //IsShowSerializePage = Visibility.Collapsed;
-                    //IsShowLinePage = Visibility.Collapsed;
-                    //IsShowHatchPage = Visibility.Collapsed;
+                    IsShowHatchPage = Visibility.Visible;
                 }
             }
+        }
+
+        private double _formatWidth = 0;
+        public double FormatWidth
+        {
+            get => _formatWidth;
+            set => SetProperty(ref _formatWidth, value);
+        }
+
+        private double _formatHeight = 0;
+        public double FormatHeight
+        {
+            get => _formatHeight;
+            set => SetProperty(ref _formatHeight, value);
+        }
+
+        private int _formatRotate = 0;
+        public int FormatRotate
+        {
+            get => _formatRotate;
+            set => SetProperty(ref _formatRotate, value);
+        }
+
+        private int _formatItalics = 0;
+        public int FormatItalics
+        {
+            get => _formatItalics;
+            set => SetProperty(ref _formatItalics, value);
+        }
+
+        private double _formatCenterX = 0;
+        public double FormatCenterX
+        {
+            get => _formatCenterX;
+            set => SetProperty(ref _formatCenterX, value);
+        }
+
+        private double _formatCenterY = 0;
+        public double FormatCenterY
+        {
+            get => _formatCenterY;
+            set => SetProperty(ref _formatCenterY, value);
+        }
+
+        private double _formatRelativeMoveX = 0;
+        public double FormatRelativeMoveX
+        {
+            get => _formatRelativeMoveX;
+            set => SetProperty(ref _formatRelativeMoveX, value);
+        }
+
+        private double _formatRelativeMoveY = 0;
+        public double FormatRelativeMoveY
+        {
+            get => _formatRelativeMoveY;
+            set => SetProperty(ref _formatRelativeMoveY, value);
         }
 
         #endregion

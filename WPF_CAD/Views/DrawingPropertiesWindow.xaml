@@ -48,26 +48,22 @@
             </hc:TabItem>
         </hc:TabControl>-->
 
-        <TabControl Grid.Row="0">
+        <TabControl Grid.Row="0" SelectedIndex="{Binding SelectedIndex}">
             <TabItem Header="Line" Visibility="{Binding IsShowLinePage}">
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
-                        <Label Content="From X: "/>
-                        <hc:NumericUpDown Value="{Binding LineFromX}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend}" Margin="5,0,0,0"/>
-                        <Label Content="From Y: " Margin="5,0,0,0"/>
-                        <hc:NumericUpDown Value="{Binding LineFromY}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend}" Margin="5,0,0,0"/>
+                        <hc:NumericUpDown Value="{Binding LineFromX}" hc:TitleElement.Title="From X: " hc:TitleElement.TitlePlacement="Left" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend}" Margin="5,0,0,0"/>
+                        <hc:NumericUpDown Value="{Binding LineFromY}" hc:TitleElement.Title="From Y: " hc:TitleElement.TitlePlacement="Left" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend}" Margin="5,0,0,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
-                        <Label Content="To X: "/>
-                        <hc:NumericUpDown Value="{Binding LineToX}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend}" Margin="5,0,0,0"/>
-                        <Label Content="To Y: " Margin="5,0,0,0"/>
-                        <hc:NumericUpDown Value="{Binding LineToY}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend}" Margin="5,0,0,0"/>
+                        <hc:NumericUpDown Value="{Binding LineToX}" DecimalPlaces="3" hc:TitleElement.Title="To X: " hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}" Margin="5,0,0,0"/>
+                        <hc:NumericUpDown Value="{Binding LineToY}" DecimalPlaces="3" hc:TitleElement.Title="To Y: " hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}" Margin="5,0,0,0"/>
                     </StackPanel>
                 </StackPanel>
             </TabItem>
 
             <TabItem Header="Data" Visibility="{Binding IsShowDataPage}">
-                
+
             </TabItem>
 
             <TabItem Header="Text" Visibility="{Binding IsShowTextPage}">
@@ -83,7 +79,41 @@
             </TabItem>
 
             <TabItem Header="Format" Visibility="{Binding IsShowFormatPage}">
+                <StackPanel Orientation="Vertical" Margin="5,5,5,5">
+                    <GroupBox Header="Size" Style="{StaticResource GroupBoxTab.Small}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <hc:NumericUpDown Value="{Binding FormatWidth}" DecimalPlaces="3" hc:TitleElement.Title="Width: " hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend.Small}" Margin="5,0,0,0"/>
+                            <hc:NumericUpDown Value="{Binding FormatHeight}" DecimalPlaces="3" hc:TitleElement.Title="Height: " hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend.Small}" Margin="10,0,0,0"/>
+                        </StackPanel>
+                    </GroupBox>
 
+                    <UniformGrid Columns="2" Margin="0,5,0,5">
+                        <GroupBox Header="Transform" Margin="0,0,5,0" Style="{StaticResource GroupBoxTab}">
+                            <StackPanel Orientation="Vertical">
+                                <hc:NumericUpDown Value="{Binding FormatRotate}" hc:TitleElement.Title="Rotate: " hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend.Small}"/>
+                                <hc:NumericUpDown Value="{Binding FormatItalics}" hc:TitleElement.Title="Italics: " hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend.Small}" Margin="0,5,0,0"/>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="Coordinates(mm)" Margin="5,0,0,0" Style="{StaticResource GroupBoxTab}">
+                            <StackPanel Orientation="Vertical">
+                                <GroupBox Header="Center Coordinate" Style="{StaticResource BaseStyle}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <hc:NumericUpDown Value="{Binding FormatCenterX}" DecimalPlaces="3" hc:TitleElement.Title="Center X: " hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend.Small}" Margin="10,0,0,0"/>
+                                        <hc:NumericUpDown Value="{Binding FormatCenterY}" DecimalPlaces="3" hc:TitleElement.Title="Center Y: " hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend.Small}" Margin="10,0,0,0"/>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="Relative move" Style="{StaticResource BaseStyle}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <hc:NumericUpDown Value="{Binding FormatRelativeMoveX}" DecimalPlaces="3" hc:TitleElement.Title="X: " hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend.Small}" Margin="10,0,0,0"/>
+                                        <hc:NumericUpDown Value="{Binding FormatRelativeMoveY}" DecimalPlaces="3" hc:TitleElement.Title="Y: " hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend.Small}" Margin="10,0,0,0"/>
+                                    </StackPanel>
+                                </GroupBox>
+                            </StackPanel>
+                        </GroupBox>
+                    </UniformGrid>
+                </StackPanel>
             </TabItem>
 
             <TabItem Header="Hatch" Visibility="{Binding IsShowHatchPage}">
