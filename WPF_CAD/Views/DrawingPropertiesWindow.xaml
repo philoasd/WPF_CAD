@@ -7,7 +7,7 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         x:Class="WPF_CAD.Views.DrawingPropertiesWindow"
         mc:Ignorable="d" xmlns:vm="clr-namespace:WPF_CAD.ViewModes" d:DataContext="{d:DesignInstance vm:DrawingPropertiesWindowViewMode}"
-        Title="Drawing Properties" Height="400" Width="647" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+        Title="Drawing Properties" Height="449" Width="481" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="9*"/>
@@ -98,14 +98,14 @@
                         <GroupBox Header="Coordinates(mm)" Margin="5,0,0,0" Style="{StaticResource GroupBoxTab}">
                             <StackPanel Orientation="Vertical">
                                 <GroupBox Header="Center Coordinate" Style="{StaticResource BaseStyle}">
-                                    <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Vertical">
                                         <hc:NumericUpDown Value="{Binding FormatCenterX}" DecimalPlaces="3" hc:TitleElement.Title="Center X: " hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend.Small}" Margin="10,0,0,0"/>
                                         <hc:NumericUpDown Value="{Binding FormatCenterY}" DecimalPlaces="3" hc:TitleElement.Title="Center Y: " hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend.Small}" Margin="10,0,0,0"/>
                                     </StackPanel>
                                 </GroupBox>
 
                                 <GroupBox Header="Relative move" Style="{StaticResource BaseStyle}">
-                                    <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Vertical">
                                         <hc:NumericUpDown Value="{Binding FormatRelativeMoveX}" DecimalPlaces="3" hc:TitleElement.Title="X: " hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend.Small}" Margin="10,0,0,0"/>
                                         <hc:NumericUpDown Value="{Binding FormatRelativeMoveY}" DecimalPlaces="3" hc:TitleElement.Title="Y: " hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend.Small}" Margin="10,0,0,0"/>
                                     </StackPanel>
@@ -117,11 +117,82 @@
             </TabItem>
 
             <TabItem Header="Hatch" Visibility="{Binding IsShowHatchPage}">
-
+                <UniformGrid Columns="2" Margin="5,5,5,5">
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox Content="Hatch" IsChecked="{Binding IsHatchEnable}"/>
+                        <hc:NumericUpDown Minimum="0.01" IsEnabled="{Binding IsHatchEnable}" Value="{Binding HatchDesity}" hc:TitleElement.Title="Density(mm)" DecimalPlaces="2" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}" Margin="0,5,0,0"/>
+                        <CheckBox Content="Horizontal" IsChecked="{Binding IsHatchHorizontalEnable}" Margin="0,5,0,0" IsEnabled="{Binding IsHatchEnable}"/>
+                        <CheckBox Content="Vertical" IsChecked="{Binding IsHatchVerticalEnable}" Margin="0,5,0,0" IsEnabled="{Binding IsHatchEnable}"/>
+                    </StackPanel>
+                </UniformGrid>
             </TabItem>
 
             <TabItem Header="Marking">
+                <Grid Margin="5,5,5,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
+                    <CheckBox Content="Outline" Grid.Row="0" Grid.Column="1" Margin="5,0,0,0"/>
+                    <Button Content=">>" Grid.Row="0" Grid.Column="2" Margin="5,0,0,0" Style="{StaticResource ButtonDashedInfo}"/>
+                    <TextBlock Text="Hatch" Grid.Row="0" Grid.Column="3" Margin="5,0,0,0" VerticalAlignment="Center"/>
+
+                    <TextBlock Text="Marking Passes: " Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding OutlineMarkingPasses}" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="1" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding HatchMarkingPasses}" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="1" Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+
+                    <TextBlock Text="Marking Speed(mm/s): " Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding OutlineMarkingSpeed}" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="1" Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding HatchMarkingSpeed}" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="1" Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+
+                    <TextBlock Text="Laser Power(0-1): " Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding OutlineLaserPower}" DecimalPlaces="1" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="0" Maximum="1" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding HatchLaserPower}" DecimalPlaces="1" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="0" Maximum="1" Grid.Row="3" Grid.Column="3" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+
+                    <TextBlock Text="Laser Frequnency(KHz): " Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding OutlineLaserFrequnency}" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="1" Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding HatchLaserFrequnency}" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="1" Grid.Row="4" Grid.Column="3" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+
+                    <TextBlock Text="Pulse Width(0-1): " Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding OutlinePulseWidth}" DecimalPlaces="1" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="0" Maximum="1" Grid.Row="5" Grid.Column="1" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding HatchPulseWidth}" DecimalPlaces="1" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="0" Maximum="1" Grid.Row="5" Grid.Column="3" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+
+                    <TextBlock Text="Laser On Delay(-8 to 8 ms): " Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding OutlineLaserOnDelay}" DecimalPlaces="3" Minimum="-8" Maximum="8" Style="{StaticResource NumericUpDownExtend.Small}" Grid.Row="6" Grid.Column="1" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding HatchLaserOnDelay}" DecimalPlaces="3" Minimum="-8" Maximum="8" Style="{StaticResource NumericUpDownExtend.Small}" Grid.Row="6" Grid.Column="3" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+
+                    <TextBlock Text="Laser Off Delay(0.002 to 8 ms): " Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding OutlineLaserOffDelay}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="0.002" Maximum="8" Grid.Row="7" Grid.Column="1" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding HatchLaserOffDelay}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="0.002" Maximum="8" Grid.Row="7" Grid.Column="3" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+
+                    <TextBlock Text="Polygon Delay(0 to 3276 ms): " Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding OutlinePolygonDelay}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="0" Maximum="3276" Grid.Row="8" Grid.Column="1" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding HatchPolygonDelay}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="0" Maximum="3276" Grid.Row="8" Grid.Column="3" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+
+                    <TextBlock Text="Mark Delay(0 to 3276 ms): " Grid.Row="9" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding OutlineMarkDelay}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="0" Maximum="3276" Grid.Row="9" Grid.Column="1" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding HatchMarkDelay}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="0" Maximum="3276" Grid.Row="9" Grid.Column="3" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+
+                    <TextBlock Text="Jump Delay(0 to 3276 ms): " Grid.Row="10" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding OutlineJumpDelay}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="0" Maximum="3276" Grid.Row="10" Grid.Column="1" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+                    <hc:NumericUpDown Value="{Binding HatchJumpDelay}" DecimalPlaces="3" Style="{StaticResource NumericUpDownExtend.Small}" Minimum="0" Maximum="3276" Grid.Row="10" Grid.Column="3" HorizontalContentAlignment="Center" Margin="0,5,0,0"/>
+                </Grid>
             </TabItem>
         </TabControl>
 

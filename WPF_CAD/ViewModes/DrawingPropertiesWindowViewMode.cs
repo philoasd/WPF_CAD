@@ -86,6 +86,8 @@ namespace WPF_CAD.ViewModes
                         this.FormatCenterX = rect.MidX;
                         this.FormatCenterY = rect.MidY;
 
+                        UpdateHatchWindowValue(obj);
+
                         break;
                     }
             }
@@ -112,6 +114,8 @@ namespace WPF_CAD.ViewModes
                         var newEndPoint = new SKPoint((float)(this.FormatCenterX + this.FormatRelativeMoveX) + (float)this.FormatWidth / 2, (float)(this.FormatCenterY + this.FormatRelativeMoveY) + (float)this.FormatHeight / 2);
                         obj.StartPoint = newStartPoint;
                         obj.EndPoint = newEndPoint;
+
+                        UpdateHatchDrawingValue(obj);
                         break;
                     }
             }
@@ -346,14 +350,60 @@ namespace WPF_CAD.ViewModes
                 SetProperty(ref _isShowHatchPage, value);
                 if (value == Visibility.Visible)
                 {
-                    //IsShowDataPage = Visibility.Collapsed;
-                    //IsShowTextPage = Visibility.Collapsed;
-                    //IsShowBarcodePage = Visibility.Collapsed;
-                    //IsShowSerializePage = Visibility.Collapsed;
-                    //IsShowFormatPage = Visibility.Collapsed;
-                    //IsShowLinePage = Visibility.Collapsed;
+
                 }
             }
+        }
+
+        private bool _isHatchEnable = false;
+        public bool IsHatchEnable
+        {
+            get => _isHatchEnable;
+            set => SetProperty(ref _isHatchEnable, value);
+        }
+
+        private double _hatchDesity = 0.01;
+        public double HatchDesity
+        {
+            get => _hatchDesity;
+            set
+            {
+                SetProperty(ref _hatchDesity, value);
+            }
+        }
+
+        private bool _isHatchHorizontalEnable = false;
+        public bool IsHatchHorizontalEnable
+        {
+            get => _isHatchHorizontalEnable;
+            set => SetProperty(ref _isHatchHorizontalEnable, value);
+        }
+
+        private bool _isHatchVerticalEnable = false;
+        public bool IsHatchVerticalEnable
+        {
+            get => _isHatchVerticalEnable;
+            set => SetProperty(ref _isHatchVerticalEnable, value);
+        }
+
+        /// <summary>
+        /// 更新填充窗口的值
+        /// </summary>
+        /// <param name="drawing"></param>
+        private void UpdateHatchWindowValue(BaseDrawingClass drawing)
+        {
+            this.IsHatchEnable = drawing.IsHatch;
+            this.HatchDesity = drawing.HatchSpacing;
+        }
+
+        /// <summary>
+        /// 更新填充绘图的值
+        /// </summary>
+        /// <param name="drawing"></param>
+        private void UpdateHatchDrawingValue(BaseDrawingClass drawing)
+        {
+            drawing.IsHatch = this.IsHatchEnable;
+            drawing.HatchSpacing = (float)this.HatchDesity;
         }
 
         #endregion
