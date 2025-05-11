@@ -353,21 +353,21 @@ namespace DrawingCanvasLib
                 case ToolType.Line:
                     {
                         _line = new(BaseDrawingClass.CurrentPoint);
-                        _line.DrawingName = "Line";
+                        //_line.DrawingName = "Line";
                         ArtWorkList.Add(_line);
                         break;
                     }
                 case ToolType.Rectangle:
                     {
                         _rect = new(BaseDrawingClass.CurrentPoint);
-                        _rect.DrawingName = "Rect";
+                        //_rect.DrawingName = "Rect";
                         ArtWorkList.Add(_rect);
                         break;
                     }
                 case ToolType.Ellipse:
                     {
                         _ellipse = new(BaseDrawingClass.CurrentPoint);
-                        _ellipse.DrawingName = "Ellipse";
+                        //_ellipse.DrawingName = "Ellipse";
                         ArtWorkList.Add(_ellipse);
                         break;
                     }

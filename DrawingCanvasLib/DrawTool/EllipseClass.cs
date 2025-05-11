@@ -17,6 +17,7 @@ namespace WPF_Draw.DrawTool
             ToolType = ToolType.Ellipse;
             StartPoint = point;
             EndPoint = point;
+            DrawingName = "Ellipse";
         }
 
         public override void Draw(SKCanvas canvas)

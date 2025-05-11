@@ -24,6 +24,10 @@ namespace WPF_CAD.ViewModes
     {
         private ProcessMode? ProcessMode => App.ServiceProvider?.GetRequiredService<ProcessMode>();
 
+        #region Event
+        public event EventHandler? OnRefreshEvent;
+        #endregion
+
         public MainWindowViewMode()
         {
             Title = $"{_mianTitle} - {OpenFileName}";
@@ -213,11 +217,15 @@ namespace WPF_CAD.ViewModes
 
                 string json = File.ReadAllText(OpenFilePath);
             }
+
+            this.DrawingList.Clear();
+            LoadArtWork(OpenFilePath);
+            RefreshCommand.Execute(null);
         });
 
         public RelayCommand SaveFileCommand => new(() =>
         {
-            if (string.IsNullOrEmpty(OpenFileName)) { }
+            if (string.IsNullOrEmpty(OpenFileName))
             {
                 // 打开一个文件选择框
                 SaveFileDialog saveFileDialog = new()
@@ -237,15 +245,7 @@ namespace WPF_CAD.ViewModes
                 return;
             }
 
-            List<ArtWorkProperties> artWorkList = new List<ArtWorkProperties>();
-            foreach (var tool in this.DrawingList)
-            {
-                artWorkList.Add(tool.GetProperties());
-            }
-
-            // Serialize artWorkList to a file
-            string fileSerialization = Newtonsoft.Json.JsonConvert.SerializeObject(artWorkList, Newtonsoft.Json.Formatting.Indented);
-            File.WriteAllText(OpenFilePath, fileSerialization);
+            SaveArtWork(OpenFilePath);
 
             MsgBoxClass.ShowMsg("Save File Successfully", MsgBoxClass.MsgBoxType.Information);
         });
@@ -268,11 +268,18 @@ namespace WPF_CAD.ViewModes
                 File.WriteAllText("artwork.json", json);
                 MsgBoxClass.ShowMsg("Save File Successfully", MsgBoxClass.MsgBoxType.Information);
             }
+
+            SaveArtWork(OpenFilePath);
         });
 
         public RelayCommand SaveFileAsPltCommand => new(() =>
         {
 
+        });
+
+        public RelayCommand RefreshCommand => new(() =>
+        {
+            OnRefreshEvent?.Invoke(this, EventArgs.Empty);
         });
 
         public RelayCommand HardWareSetupCommand => new(() =>
@@ -287,12 +294,6 @@ namespace WPF_CAD.ViewModes
         /// </summary>
         public void SaveArtWork(string path)
         {
-            if (this.DrawingList.Count == 0)
-            {
-                MessageBox.Show("No tools to save.");
-                return;
-            }
-
             List<ArtWorkProperties> artWorkList = new List<ArtWorkProperties>();
             foreach (var tool in this.DrawingList)
             {
@@ -328,6 +329,9 @@ namespace WPF_CAD.ViewModes
                         {
                             var line = new LineClass(artWork.StartPoint);
                             line.EndPoint = artWork.EndPoint;
+                            line.OutlineProperties = artWork.OutLineProperties;
+                            line.HatchProperties = artWork.HatchProperties;
+
                             this.DrawingList.Add(line);
                             break;
                         }
@@ -337,6 +341,9 @@ namespace WPF_CAD.ViewModes
                             rect.EndPoint = artWork.EndPoint;
                             rect.IsHatch = artWork.IsHatch;
                             rect.IsOutLine = artWork.IsOutline;
+                            rect.OutlineProperties = artWork.OutLineProperties;
+                            rect.HatchProperties = artWork.HatchProperties;
+
                             this.DrawingList.Add(rect);
                             break;
                         }
@@ -346,6 +353,9 @@ namespace WPF_CAD.ViewModes
                             ellipse.EndPoint = artWork.EndPoint;
                             ellipse.IsHatch = artWork.IsHatch;
                             ellipse.IsOutLine = artWork.IsOutline;
+                            ellipse.OutlineProperties = artWork.OutLineProperties;
+                            ellipse.HatchProperties = artWork.HatchProperties;
+
                             this.DrawingList.Add(ellipse);
                             break;
                         }

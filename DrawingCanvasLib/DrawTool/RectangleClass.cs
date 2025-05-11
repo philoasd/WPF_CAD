@@ -23,6 +23,7 @@ namespace WPF_Draw.DrawTool
             ToolType = ToolType.Rectangle;
             StartPoint = point;
             EndPoint = point;
+            DrawingName = "Rect";
         }
 
         public override void Draw(SKCanvas canvas)

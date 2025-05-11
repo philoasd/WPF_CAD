@@ -266,7 +266,7 @@ namespace DrawingCanvasLib.DrawTool
                 IsHatch = IsHatch,
                 IsOutline = IsOutLine,
                 OutLineProperties = OutlineProperties,
-                HatchProperties = HatchProperties
+                HatchProperties = HatchProperties,
             };
         }
     }

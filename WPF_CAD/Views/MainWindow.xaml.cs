@@ -55,6 +55,10 @@ namespace WPF_CAD
         {
             #region Drawing Canvas Event Binding
             MCanvas.OnDoubleClickEvent += OnDoubleClick;
+            MainWindowViewMode.OnRefreshEvent += (s, e) =>
+            {
+                this.DrawingCanvas.Fresh();
+            };
             #endregion
 
             UpdateDateTime();

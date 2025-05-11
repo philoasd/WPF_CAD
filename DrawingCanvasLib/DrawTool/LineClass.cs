@@ -14,6 +14,7 @@ namespace DrawingCanvasLib.DrawTool
             ToolType = ToolType.Line;
             StartPoint = point;
             EndPoint = point;
+            DrawingName = "Line";
         }
 
         public override void Draw(SKCanvas canvas)
