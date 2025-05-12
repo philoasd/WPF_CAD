@@ -384,11 +384,12 @@ namespace WPF_CAD.ViewModes
 
             #region 设置通用绘图属性
 
-            // marking 属性
             foreach (var drawing in this.DrawingList)
             {
                 var target = artWorkList.Find(x => x.Type == drawing.ToolType);
                 if(target == null) { continue; }
+
+                // marking 属性
                 drawing.OutlineProperties = target.OutLineProperties;
                 drawing.HatchProperties = target.HatchProperties;
             }
