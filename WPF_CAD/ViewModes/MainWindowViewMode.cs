@@ -329,8 +329,8 @@ namespace WPF_CAD.ViewModes
                         {
                             var line = new LineClass(artWork.StartPoint);
                             line.EndPoint = artWork.EndPoint;
-                            line.OutlineProperties = artWork.OutLineProperties;
-                            line.HatchProperties = artWork.HatchProperties;
+                            //line.OutlineProperties = artWork.OutLineProperties;
+                            //line.HatchProperties = artWork.HatchProperties;
 
                             this.DrawingList.Add(line);
                             break;
@@ -341,8 +341,8 @@ namespace WPF_CAD.ViewModes
                             rect.EndPoint = artWork.EndPoint;
                             rect.IsHatch = artWork.IsHatch;
                             rect.IsOutLine = artWork.IsOutline;
-                            rect.OutlineProperties = artWork.OutLineProperties;
-                            rect.HatchProperties = artWork.HatchProperties;
+                            //rect.OutlineProperties = artWork.OutLineProperties;
+                            //rect.HatchProperties = artWork.HatchProperties;
 
                             this.DrawingList.Add(rect);
                             break;
@@ -353,8 +353,8 @@ namespace WPF_CAD.ViewModes
                             ellipse.EndPoint = artWork.EndPoint;
                             ellipse.IsHatch = artWork.IsHatch;
                             ellipse.IsOutLine = artWork.IsOutline;
-                            ellipse.OutlineProperties = artWork.OutLineProperties;
-                            ellipse.HatchProperties = artWork.HatchProperties;
+                            //ellipse.OutlineProperties = artWork.OutLineProperties;
+                            //ellipse.HatchProperties = artWork.HatchProperties;
 
                             this.DrawingList.Add(ellipse);
                             break;
@@ -381,6 +381,19 @@ namespace WPF_CAD.ViewModes
                         }
                 }
             }
+
+            #region 设置通用绘图属性
+
+            // marking 属性
+            foreach (var drawing in this.DrawingList)
+            {
+                var target = artWorkList.Find(x => x.Type == drawing.ToolType);
+                if(target == null) { continue; }
+                drawing.OutlineProperties = target.OutLineProperties;
+                drawing.HatchProperties = target.HatchProperties;
+            }
+
+            #endregion
         }
         #endregion
 
