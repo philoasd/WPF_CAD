@@ -17,6 +17,7 @@ namespace DrawingCanvasLib
         public SKPoint StartPoint { get; set; } = new SKPoint(0, 0);
         public SKPoint EndPoint { get; set; } = new SKPoint(0, 0);
         public bool IsHatch { get; set; } = false;
+        public float HatchSpacing { get; set; } = 1.0f;
         public bool IsOutline { get; set; } = true;
         public string DrawText { get; set; } = "TEXT";
         public float TextSize { get; set; } = 20f;

@@ -382,12 +382,16 @@ namespace WPF_CAD.ViewModes
                 }
             }
 
-            #region 设置通用绘图属性
+            #region 设置绘图属性
 
             foreach (var drawing in this.DrawingList)
             {
                 var target = artWorkList.Find(x => x.Type == drawing.ToolType);
                 if(target == null) { continue; }
+
+                // hatch 属性
+                drawing.IsHatch = target.IsHatch;
+                drawing.HatchSpacing = target.HatchSpacing;
 
                 // marking 属性
                 drawing.OutlineProperties = target.OutLineProperties;

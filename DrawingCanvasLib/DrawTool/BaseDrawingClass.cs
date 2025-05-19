@@ -264,6 +264,7 @@ namespace DrawingCanvasLib.DrawTool
                 StartPoint = StartPoint,
                 EndPoint = EndPoint,
                 IsHatch = IsHatch,
+                HatchSpacing = HatchSpacing,
                 IsOutline = IsOutLine,
                 OutLineProperties = OutlineProperties,
                 HatchProperties = HatchProperties,
