@@ -195,8 +195,8 @@ namespace WPF_CAD.ViewModes
             }
         }
 
-        private ObservableCollection<MachineConfigClass> _machineConfigList = new();
-        public ObservableCollection<MachineConfigClass> MachineConfigList
+        private MachineConfigClass _machineConfigList = new();
+        public MachineConfigClass MachineConfigList
         {
             get => _machineConfigList;
             set => SetProperty(ref _machineConfigList, value);

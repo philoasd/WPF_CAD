@@ -7,11 +7,15 @@ using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DrawingCanvasLib;
+using Mapster;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WPF_CAD.ViewModes
 {
     public class HardwareWindowViewMode : ObservableObject
     {
+        private MainWindowViewMode? MainWindowViewMode => App.ServiceProvider?.GetService<MainWindowViewMode>();
+
         #region Main window
 
         public RelayCommand<Window> SaveHardwareConfigCommand => new((obj) =>
@@ -19,6 +23,10 @@ namespace WPF_CAD.ViewModes
             if (obj == null) { return; }
 
             // todo:保存hardware配置逻辑
+            if (MainWindowViewMode != null)
+            {
+                MainWindowViewMode.MachineConfigList.LaserPropertie = this.DefaultLaserProperties.Adapt<LaserProperties>();
+            }
 
             // 关闭窗口
             obj.Close();

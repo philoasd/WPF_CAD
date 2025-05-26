@@ -76,9 +76,9 @@ namespace WPF_CAD
 
         private void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<MainWindow>();
-            services.AddTransient<MainWindowViewMode>();
-            services.AddSingleton<HardwareWindowViewMode>();
+            services.AddSingleton<MainWindow>();
+            services.AddSingleton<MainWindowViewMode>();
+            services.AddTransient<HardwareWindowViewMode>();
             services.AddTransient<HardwareSetupWindow>();
             services.AddTransient<DrawingPropertiesWindowViewMode>();
             services.AddTransient<DrawingPropertiesWindow>();

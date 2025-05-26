@@ -8,9 +8,8 @@ using DrawingCanvasLib;
 
 namespace WPF_CAD.Utils
 {
-    public partial class MachineConfigClass : ObservableObject
+    public class MachineConfigClass
     {
-        [ObservableProperty]
-        private LaserProperties _laserPropertie = new();
+        public LaserProperties LaserPropertie { get; set; } = new();
     }
 }

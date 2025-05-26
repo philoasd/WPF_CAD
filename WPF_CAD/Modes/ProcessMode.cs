@@ -33,14 +33,19 @@ namespace WPF_CAD.Modes
         /// <summary>
         /// 加载机器配置
         /// </summary>
-        public ObservableCollection<MachineConfigClass> LoadMachineConfig()
+        public MachineConfigClass LoadMachineConfig()
         {
+            if(!File.Exists(MachineConfigFilePath))
+            {
+                return new MachineConfigClass();
+            }
+
             string json = File.ReadAllText(MachineConfigFilePath);
-            var machineConfig = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<MachineConfigClass>>(json);
+            var machineConfig = Newtonsoft.Json.JsonConvert.DeserializeObject<MachineConfigClass>(json);
             if (machineConfig == null)
             {
                 MsgBoxClass.ShowMsg("Failed to load machine configuration.", MsgBoxClass.MsgBoxType.Error);
-                return [];
+                return new MachineConfigClass();
             }
 
             return machineConfig;

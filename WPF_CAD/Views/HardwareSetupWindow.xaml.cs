@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WPF_CAD.ViewModes;
+using Mapster;
 
 namespace WPF_CAD.Views
 {
@@ -22,6 +23,7 @@ namespace WPF_CAD.Views
     public partial class HardwareSetupWindow : Window
     {
         private HardwareWindowViewMode? HardwareWindowViewMode => this.DataContext as HardwareWindowViewMode;
+        private MainWindowViewMode? MainWindowViewMode => this.Owner?.DataContext as MainWindowViewMode;
 
         public HardwareSetupWindow(HardwareWindowViewMode vm)
         {
@@ -29,11 +31,23 @@ namespace WPF_CAD.Views
             this.DataContext = vm;
 
             this.Loaded += HardwareSetupWindow_Loaded;
+            this.Closed += HardwareSetupWindow_Closed;
+        }
+
+        private void HardwareSetupWindow_Closed(object? sender, EventArgs e)
+        {
+            
         }
 
         private void HardwareSetupWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            if(HardwareWindowViewMode==null|| MainWindowViewMode == null)
+            {
+                return;
+            }
+
+            // todo: 加载hardware配置逻辑
+            HardwareWindowViewMode.DefaultLaserProperties = MainWindowViewMode.MachineConfigList?.LaserPropertie?.Adapt<DrawingCanvasLib.LaserProperties>() ?? new DrawingCanvasLib.LaserProperties();
         }
     }
 }
