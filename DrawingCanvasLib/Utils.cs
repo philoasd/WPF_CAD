@@ -54,7 +54,7 @@ namespace DrawingCanvasLib
         public double FoucsHeight { get; set; } = 0.0;
         public int MarkingPasses { get; set; } = 1;
         public int MarkingSpeed { get; set; } = 1;
-        public float LaserPower { get; set; } = 1;
+        public double LaserPower { get; set; } = 1;
         public int LaserFrequnency { get; set; } = 1;
         public double PulseWidth { get; set; } = 1;
         public double LaserOnDelay { get; set; } = 0;

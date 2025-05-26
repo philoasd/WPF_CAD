@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance viewmodes:HardwareWindowViewMode}"
         xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:viewmodes="clr-namespace:WPF_CAD.ViewModes"
-        Title="Hardware Setup" Height="494.4" Width="800">
+        Title="Hardware Setup" Height="494.4" Width="800" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -17,17 +17,17 @@
             <TabItem Header="Laser">
                 <hc:UniformSpacingPanel Spacing="15" Orientation="Vertical" HorizontalAlignment="Left" ChildWrapping="Wrap">
                     <hc:NumericUpDown Value="{Binding DefaultLaserProperties.MarkSize}" hc:TitleElement.Title="Mark Size (mm)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
-                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.FoucsHeight}" hc:TitleElement.Title="Focus Hight(mm)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
-                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.LaserPower}" hc:TitleElement.Title="Power (0-1)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
-                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.LaserFrequnency}" hc:TitleElement.Title="Frequency (KHz)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
-                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.PulseWidth}" hc:TitleElement.Title="Pulse Width(0-1)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.FoucsHeight}" DecimalPlaces="2" hc:TitleElement.Title="Focus Hight(mm)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.LaserPower}" DecimalPlaces="2" Minimum="0" Maximum="1" hc:TitleElement.Title="Power (0-1)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.LaserFrequnency}" DecimalPlaces="1" hc:TitleElement.Title="Frequency (KHz)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.PulseWidth}" DecimalPlaces="2" Minimum="0" Maximum="1" hc:TitleElement.Title="Pulse Width(0-1)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
                     <hc:NumericUpDown Value="{Binding DefaultLaserProperties.MarkingSpeed}" hc:TitleElement.Title="Marking Speed (mm/s)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
                     <!--<hc:NumericUpDown hc:TitleElement.Title="Position Speed(mm/s)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>-->
-                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.PolygonDelay}" hc:TitleElement.Title="Polygon Delay (0 to 3276 ms)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
-                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.LaserOnDelay}" hc:TitleElement.Title="Laser On Delay (-8 to 8 ms)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
-                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.LaserOffDelay}" hc:TitleElement.Title="Laser Off Delay (0.002 to 8 ms)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
-                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.MarkDelay}" hc:TitleElement.Title="Mark Delay (0 to 3276 ms)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
-                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.JumpDelay}" hc:TitleElement.Title="Jump Delay (0 to 3276 ms)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.PolygonDelay}" DecimalPlaces="2" Minimum="0" Maximum="3276" hc:TitleElement.Title="Polygon Delay (0 to 3276 ms)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.LaserOnDelay}" DecimalPlaces="2" Minimum="-8" Maximum="8" hc:TitleElement.Title="Laser On Delay (-8 to 8 ms)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.LaserOffDelay}" DecimalPlaces="2" Minimum="0.002" Maximum="8" hc:TitleElement.Title="Laser Off Delay (0.002 to 8 ms)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.MarkDelay}" DecimalPlaces="2" Minimum="0" Maximum="3276" hc:TitleElement.Title="Mark Delay (0 to 3276 ms)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.JumpDelay}" DecimalPlaces="2" Minimum="0" Maximum="3276" hc:TitleElement.Title="Jump Delay (0 to 3276 ms)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
                     <CheckBox Content="Fix Parameter" IsChecked="{Binding DefaultLaserProperties.IsFixParameters}"/>
                 </hc:UniformSpacingPanel>
             </TabItem>

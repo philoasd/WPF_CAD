@@ -283,10 +283,16 @@ namespace WPF_CAD.ViewModes
             OnRefreshEvent?.Invoke(this, EventArgs.Empty);
         });
 
-        public RelayCommand HardWareSetupCommand => new(() =>
+        public RelayCommand<Window> HardWareSetupCommand => new((obj) =>
         {
             // 打开hardware setup window
             var hardwareWindow = App.ServiceProvider?.GetRequiredService<HardwareSetupWindow>();
+            if (hardwareWindow == null) { return; }
+            if (obj != null)
+            {
+                hardwareWindow.Owner = obj; // 设置父窗口
+            }
+
             hardwareWindow?.ShowDialog();
         });
         #endregion

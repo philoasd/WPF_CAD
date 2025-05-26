@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_CAD"
         xmlns:hc="https://handyorg.github.io/handycontrol"
-        xmlns:ViewModes="clr-namespace:WPF_CAD.ViewModes" xmlns:drawingcanvaslib="clr-namespace:DrawingCanvasLib;assembly=DrawingCanvasLib" x:Class="WPF_CAD.MainWindow"
+        xmlns:ViewModes="clr-namespace:WPF_CAD.ViewModes" xmlns:drawingcanvaslib="clr-namespace:DrawingCanvasLib;assembly=DrawingCanvasLib" x:Name="window" x:Class="WPF_CAD.MainWindow"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:WPF_CAD.ViewModes"
         d:DataContext="{d:DesignInstance vm:MainWindowViewMode}"
@@ -45,7 +45,7 @@
                     </MenuItem>
                     <MenuItem Header="Save as Plt" Command="{Binding SaveFileAsPltCommand}"/>
                 </MenuItem>
-                <MenuItem Header="HardWare Setup" Command="{Binding HardWareSetupCommand}"/>
+                <MenuItem Header="HardWare Setup" Command="{Binding HardWareSetupCommand}" CommandParameter="{Binding ElementName=window, Mode=OneWay}"/>
                 <MenuItem Header="About" />
             </Menu>
 

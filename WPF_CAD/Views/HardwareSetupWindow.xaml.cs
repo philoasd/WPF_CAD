@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,8 +26,14 @@ namespace WPF_CAD.Views
         public HardwareSetupWindow(HardwareWindowViewMode vm)
         {
             InitializeComponent();
-
             this.DataContext = vm;
+
+            this.Loaded += HardwareSetupWindow_Loaded;
+        }
+
+        private void HardwareSetupWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }
