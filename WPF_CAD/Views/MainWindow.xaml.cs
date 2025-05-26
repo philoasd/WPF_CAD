@@ -66,6 +66,12 @@ namespace WPF_CAD
 
             #endregion
 
+            // 读取机器配置
+            if (MainWindowViewMode != null)
+            {
+                MainWindowViewMode.MachineConfigList = [.. App.ServiceProvider?.GetRequiredService<ProcessMode>().LoadMachineConfig() ?? []];
+            } 
+
             UpdateDateTime();
         }
 

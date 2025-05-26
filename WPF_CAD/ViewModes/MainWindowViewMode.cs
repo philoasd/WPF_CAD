@@ -34,6 +34,8 @@ namespace WPF_CAD.ViewModes
             Title = $"{_mianTitle} - {OpenFileName}";
         }
 
+
+        #region Values
         public string _mianTitle => "WPF_CAD Software";
 
         private string _title = string.Empty;
@@ -192,6 +194,15 @@ namespace WPF_CAD.ViewModes
                 // 这里可以添加切换工具的逻辑
             }
         }
+
+        private ObservableCollection<MachineConfigClass> _machineConfigList = new();
+        public ObservableCollection<MachineConfigClass> MachineConfigList
+        {
+            get => _machineConfigList;
+            set => SetProperty(ref _machineConfigList, value);
+        }
+
+        #endregion
 
         #region menu commands
         public RelayCommand NewFileCommand => new(() =>
