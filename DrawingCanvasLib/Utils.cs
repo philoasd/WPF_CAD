@@ -50,6 +50,8 @@ namespace DrawingCanvasLib
     /// </summary>
     public class LaserProperties
     {
+        public int MarkSize { get; set; } = 100;
+        public double FoucsHeight { get; set; } = 0.0;
         public int MarkingPasses { get; set; } = 1;
         public int MarkingSpeed { get; set; } = 1;
         public float LaserPower { get; set; } = 1;
@@ -60,5 +62,6 @@ namespace DrawingCanvasLib
         public double PolygonDelay { get; set; } = 0;
         public double MarkDelay { get; set; } = 0;
         public double JumpDelay { get; set; } = 0;
+        public bool IsFixParameters { get; set; } = false;
     }
 }

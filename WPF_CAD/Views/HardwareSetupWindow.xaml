@@ -1,0 +1,57 @@
+﻿<Window x:Name="window" x:Class="WPF_CAD.Views.HardwareSetupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_CAD.Views"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance viewmodes:HardwareWindowViewMode}"
+        xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:viewmodes="clr-namespace:WPF_CAD.ViewModes"
+        Title="Hardware Setup" Height="494.4" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0" Margin="5,5,5,5">
+            <TabItem Header="Laser">
+                <hc:UniformSpacingPanel Spacing="15" Orientation="Vertical" HorizontalAlignment="Left" ChildWrapping="Wrap">
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.MarkSize}" hc:TitleElement.Title="Mark Size (mm)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.FoucsHeight}" hc:TitleElement.Title="Focus Hight(mm)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.LaserPower}" hc:TitleElement.Title="Power (0-1)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.LaserFrequnency}" hc:TitleElement.Title="Frequency (KHz)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.PulseWidth}" hc:TitleElement.Title="Pulse Width(0-1)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.MarkingSpeed}" hc:TitleElement.Title="Marking Speed (mm/s)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <!--<hc:NumericUpDown hc:TitleElement.Title="Position Speed(mm/s)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>-->
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.PolygonDelay}" hc:TitleElement.Title="Polygon Delay (0 to 3276 ms)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.LaserOnDelay}" hc:TitleElement.Title="Laser On Delay (-8 to 8 ms)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.LaserOffDelay}" hc:TitleElement.Title="Laser Off Delay (0.002 to 8 ms)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.MarkDelay}" hc:TitleElement.Title="Mark Delay (0 to 3276 ms)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <hc:NumericUpDown Value="{Binding DefaultLaserProperties.JumpDelay}" hc:TitleElement.Title="Jump Delay (0 to 3276 ms)" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource NumericUpDownExtend}"/>
+                    <CheckBox Content="Fix Parameter" IsChecked="{Binding DefaultLaserProperties.IsFixParameters}"/>
+                </hc:UniformSpacingPanel>
+            </TabItem>
+
+            <TabItem Header="Scanlab">
+
+            </TabItem>
+
+            <TabItem Header="Test">
+
+            </TabItem>
+
+            <TabItem Header="Control">
+
+            </TabItem>
+
+            <TabItem Header="IO">
+
+            </TabItem>
+        </TabControl>
+
+        <UniformGrid Grid.Row="1" Columns="2" Margin="0,5,0,5">
+            <Button Content="OK" Style="{StaticResource ButtonSuccess}" Command="{Binding SaveHardwareConfigCommand}" Width="{Binding ActualWidth, ElementName=button, Mode=OneWay}" CommandParameter="{Binding ElementName=window, Mode=OneWay}"/>
+            <Button x:Name="button" Content="Cancel" Style="{StaticResource ButtonDanger}" Command="{Binding CloseHardwareWindowCommand}" CommandParameter="{Binding ElementName=window, Mode=OneWay}"/>
+        </UniformGrid>
+    </Grid>
+</Window>

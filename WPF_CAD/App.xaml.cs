@@ -78,11 +78,12 @@ namespace WPF_CAD
         {
             services.AddTransient<MainWindow>();
             services.AddTransient<MainWindowViewMode>();
-            
-            services.AddSingleton<ProcessMode>();
-
+            services.AddSingleton<HardwareWindowViewMode>();
+            services.AddTransient<HardwareSetupWindow>();
             services.AddTransient<DrawingPropertiesWindowViewMode>();
             services.AddTransient<DrawingPropertiesWindow>();
+
+            services.AddSingleton<ProcessMode>();
             //services.AddSingleton<LoginWinodw>();
         }
 

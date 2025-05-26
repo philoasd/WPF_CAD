@@ -16,6 +16,7 @@ using Microsoft.Win32;
 using SkiaSharp;
 using WPF_CAD.Modes;
 using WPF_CAD.Utils;
+using WPF_CAD.Views;
 using WPF_Draw.DrawTool;
 
 namespace WPF_CAD.ViewModes
@@ -285,6 +286,8 @@ namespace WPF_CAD.ViewModes
         public RelayCommand HardWareSetupCommand => new(() =>
         {
             // 打开hardware setup window
+            var hardwareWindow = App.ServiceProvider?.GetRequiredService<HardwareSetupWindow>();
+            hardwareWindow?.ShowDialog();
         });
         #endregion
 
