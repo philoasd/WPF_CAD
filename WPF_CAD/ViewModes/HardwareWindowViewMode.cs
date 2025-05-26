@@ -25,7 +25,7 @@ namespace WPF_CAD.ViewModes
             // todo:保存hardware配置逻辑
             if (MainWindowViewMode != null)
             {
-                MainWindowViewMode.MachineConfigList.LaserPropertie = this.DefaultLaserProperties.Adapt<LaserProperties>();
+                MainWindowViewMode.MachineConfig.DefaultLaserPropertie = this.DefaultLaserProperties.Adapt<LaserProperties>();
             }
 
             // 关闭窗口

@@ -47,7 +47,7 @@ namespace WPF_CAD.Views
             }
 
             // todo: 加载hardware配置逻辑
-            HardwareWindowViewMode.DefaultLaserProperties = MainWindowViewMode.MachineConfigList?.LaserPropertie?.Adapt<DrawingCanvasLib.LaserProperties>() ?? new DrawingCanvasLib.LaserProperties();
+            HardwareWindowViewMode.DefaultLaserProperties = MainWindowViewMode.MachineConfig?.DefaultLaserPropertie?.Adapt<DrawingCanvasLib.LaserProperties>() ?? new DrawingCanvasLib.LaserProperties();
         }
     }
 }

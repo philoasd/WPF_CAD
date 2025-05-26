@@ -1,4 +1,5 @@
 ﻿using DrawingCanvasLib;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WPF_CAD.Utils;
+using WPF_CAD.ViewModes;
 
 namespace WPF_CAD.Modes
 {
@@ -55,11 +57,12 @@ namespace WPF_CAD.Modes
         /// 保存机器配置
         /// </summary>
         /// <param name="machineConfig"></param>
-        private void SaveMachineConfig(ObservableCollection<MachineConfigClass> machineConfig)
+        public void SaveMachineConfig()
         {
+            var machineConfig = App.ServiceProvider?.GetService<MainWindowViewMode>()?.MachineConfig;
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(machineConfig, Newtonsoft.Json.Formatting.Indented);
             File.WriteAllText(MachineConfigFilePath, json);
-            MsgBoxClass.ShowMsg("Machine configuration saved successfully.", MsgBoxClass.MsgBoxType.Information);
+            //MsgBoxClass.ShowMsg("Machine configuration saved successfully.", MsgBoxClass.MsgBoxType.Information);
         }
     }
 }

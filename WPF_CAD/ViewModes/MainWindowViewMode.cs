@@ -195,11 +195,11 @@ namespace WPF_CAD.ViewModes
             }
         }
 
-        private MachineConfigClass _machineConfigList = new();
-        public MachineConfigClass MachineConfigList
+        private MachineConfigClass _machineConfig = new();
+        public MachineConfigClass MachineConfig
         {
-            get => _machineConfigList;
-            set => SetProperty(ref _machineConfigList, value);
+            get => _machineConfig;
+            set => SetProperty(ref _machineConfig, value);
         }
 
         #endregion
