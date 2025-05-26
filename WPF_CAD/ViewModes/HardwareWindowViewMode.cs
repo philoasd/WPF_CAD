@@ -18,7 +18,7 @@ namespace WPF_CAD.ViewModes
         {
             if (obj == null) { return; }
 
-            // 保存hardware配置逻辑
+            // todo:保存hardware配置逻辑
 
             // 关闭窗口
             obj.Close();
