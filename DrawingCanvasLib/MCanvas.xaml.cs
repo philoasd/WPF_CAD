@@ -62,12 +62,16 @@ namespace DrawingCanvasLib
             {
                 if (e.NewValue is BaseDrawingClass tool)
                 {
-                    foreach(var item in canvas.ArtWorkList)
+                    foreach (var item in canvas.ArtWorkList)
                     {
                         item.IsSelected = false;
+                        item.OnDrawingCenter -= CenterDrawing;
                         if (item == tool)
                         {
                             item.IsSelected = true;
+
+                            item.OnDrawingCenter += CenterDrawing;
+                            canvas.Canvas.InvalidateVisual();
                         }
                     }
                     canvas.Canvas.InvalidateVisual();
@@ -94,10 +98,19 @@ namespace DrawingCanvasLib
             {
                 if (e.NewValue is ToolType toolType)
                 {
-                    if (toolType == ToolType.Clear)
+                    //if (toolType == ToolType.Clear)
+                    //{
+                    //    canvas.ArtWorkList.Clear();
+                    //    canvas.Canvas.InvalidateVisual();
+                    //}
+                    switch (toolType)
                     {
-                        canvas.ArtWorkList.Clear();
-                        canvas.Canvas.InvalidateVisual();
+                        case ToolType.Clear:
+                            {
+                                canvas.ArtWorkList.Clear();
+                                canvas.Canvas.InvalidateVisual();
+                                break;
+                            }
                     }
                 }
             }
@@ -161,8 +174,8 @@ namespace DrawingCanvasLib
         /// <summary>
         /// 直线
         /// </summary>
-        private LineClass ?_line { get; set; } = null;
-        private RectangleClass ?_rect { get; set; } = null;
+        private LineClass? _line { get; set; } = null;
+        private RectangleClass? _rect { get; set; } = null;
         private EllipseClass? _ellipse { get; set; } = null;
 
         #endregion
@@ -313,7 +326,7 @@ namespace DrawingCanvasLib
 
                 _clickPoint = BaseDrawingClass.CurrentPoint;
             }
-            else if(e.MiddleButton.HasFlag(MouseButtonState.Pressed)) // canvas
+            else if (e.MiddleButton.HasFlag(MouseButtonState.Pressed)) // canvas
             {
 #if DEBUG
                 Debug.WriteLine($"Middle Button: {BaseDrawingClass.CurrentPoint}");
@@ -704,9 +717,36 @@ namespace DrawingCanvasLib
             }
         }
 
+        /// <summary>
+        /// 刷新画布
+        /// </summary>
         public void Fresh()
         {
             this.Canvas.InvalidateVisual();
+        }
+
+        private void CenterDrawing(object? sender, BaseDrawingClass drawing)
+        {
+            // 获取当前路径的外接矩形
+            var rect = drawing.OutLinePath.TightBounds;
+            // 计算中心点
+            var centerX = (rect.Left + rect.Right) / 2;
+            var centerY = (rect.Top + rect.Bottom) / 2;
+
+            // 控件尺寸（目标尺寸）
+            var info = this.Canvas;
+            var targetWidth = info.Width;
+            var targetHeight = info.Height;
+
+            // 计算等比缩放
+            float scale = Math.Min((float)targetWidth / imageWidth, (float)targetHeight / imageHeight);
+
+            float scaledWidth = imageWidth * scale;
+            float scaledHeight = imageHeight * scale;
+
+            // 让图像居中
+            float x = (targetWidth - scaledWidth) / 2f;
+            float y = (targetHeight - scaledHeight) / 2f;
         }
     }
 }

@@ -10,10 +10,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ExternalClass\**" />
+    <EmbeddedResource Remove="ExternalClass\**" />
+    <None Remove="ExternalClass\**" />
+    <Page Remove="ExternalClass\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="ico\17436_as_guardar_save_icon.ico" />
     <None Remove="ico\2931173_document_empty_file_new_sheet_icon.ico" />
     <None Remove="ico\326614_drawing_icon.ico" />
     <None Remove="ico\8726075_line_alt_icon.ico" />
+    <None Remove="ico\9111280_cross_icon.ico" />
     <None Remove="ico\barcode_code_icon.ico" />
     <None Remove="ico\camera_icon.png" />
     <None Remove="ico\circle_oval_shape_icon.png" />
@@ -60,6 +68,7 @@
     <Resource Include="ico\2931173_document_empty_file_new_sheet_icon.ico" />
     <Resource Include="ico\326614_drawing_icon.ico" />
     <Resource Include="ico\8726075_line_alt_icon.ico" />
+    <Resource Include="ico\9111280_cross_icon.ico" />
     <Resource Include="ico\barcode_code_icon.ico" />
     <Resource Include="ico\camera_icon.png" />
     <Resource Include="ico\circle_oval_shape_icon.png" />
@@ -88,10 +97,6 @@
     <None Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ExternalClass\" />
   </ItemGroup>
 
 </Project>

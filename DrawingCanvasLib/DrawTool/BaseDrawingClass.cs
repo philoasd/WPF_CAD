@@ -31,6 +31,9 @@ namespace DrawingCanvasLib.DrawTool
         public LaserProperties OutlineProperties { get; set; } = new LaserProperties();
         public LaserProperties HatchProperties { get; set; } = new LaserProperties();
 
+
+        public event EventHandler<BaseDrawingClass>? OnDrawingCenter; // 绘图中心事件
+
         private bool _isSeleted = false;
         public bool IsSelected
         {
@@ -269,6 +272,25 @@ namespace DrawingCanvasLib.DrawTool
                 OutLineProperties = OutlineProperties,
                 HatchProperties = HatchProperties,
             };
+        }
+
+        /// <summary>
+        /// 将当前绘图对象居中到画布上
+        /// </summary>
+        public void Centerize()
+        {
+            if (OutLinePath == null)
+            {
+                return;
+            }
+            // 获取当前路径的外接矩形
+            var rect = OutLinePath.TightBounds;
+            // 计算中心点
+            var centerX = (rect.Left + rect.Right) / 2;
+            var centerY = (rect.Top + rect.Bottom) / 2;
+
+            // 获取绘图所在画布的大小
+            OnDrawingCenter?.Invoke(this, this);
         }
     }
 }

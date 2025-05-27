@@ -83,8 +83,7 @@ namespace WPF_CAD
             services.AddTransient<DrawingPropertiesWindowViewMode>();
             services.AddTransient<DrawingPropertiesWindow>();
 
-            services.AddSingleton<ProcessMode>();
-            //services.AddSingleton<LoginWinodw>();
+            services.AddTransient<ProcessMode>();
         }
 
         #region Exception Handling

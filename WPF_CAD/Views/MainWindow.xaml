@@ -112,8 +112,11 @@
                         <Button  ToolTip="draw the barcode" Command="{Binding SwitchDrawingToolCommand}" CommandParameter="5">
                             <Image Source="/ico/barcode_code_icon.ico"/>
                         </Button>
-                        <Button  ToolTip="import" Command="{Binding SwitchDrawingToolCommand}" CommandParameter="6">
+                        <Button  ToolTip="import">
                             <Image Source="/ico/import_left_icon.ico"/>
+                        </Button>
+                        <Button  ToolTip="Center" Command="{Binding CenterDrawingCommand}" CommandParameter="{Binding SelectedDrawing}">
+                            <Image Source="/ico/9111280_cross_icon.ico"/>
                         </Button>
                     </ToolBar>
                 </ToolBarTray>

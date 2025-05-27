@@ -34,7 +34,6 @@ namespace WPF_CAD.ViewModes
             Title = $"{_mianTitle} - {OpenFileName}";
         }
 
-
         #region Values
         public string _mianTitle => "WPF_CAD Software";
 
@@ -379,10 +378,6 @@ namespace WPF_CAD.ViewModes
                             this.DrawingList.Add(ellipse);
                             break;
                         }
-                    case ToolType.Polygon: // Polygon
-                        {
-                            break;
-                        }
                     case ToolType.Text: // Text
                         {
                             //var text = new TextClass(artWork.StartPoint);
@@ -407,7 +402,7 @@ namespace WPF_CAD.ViewModes
             foreach (var drawing in this.DrawingList)
             {
                 var target = artWorkList.Find(x => x.Type == drawing.ToolType);
-                if(target == null) { continue; }
+                if (target == null) { continue; }
 
                 // hatch 属性
                 drawing.IsHatch = target.IsHatch;
@@ -433,6 +428,17 @@ namespace WPF_CAD.ViewModes
             var toolType = int.Parse(obj.ToString());
 
             DrawingTool = (ToolType)toolType;
+        });
+
+        /// <summary>
+        /// 居中当前选中的绘图
+        /// </summary>
+        public RelayCommand<BaseDrawingClass> CenterDrawingCommand => new((obj) =>
+        {
+            if (obj == null) { return; }
+
+            obj.Centerize();
+            this.RefreshCommand.Execute(null);
         });
 
         #endregion

@@ -40,7 +40,6 @@ namespace DrawingCanvasLib
         Line,
         Rectangle,
         Ellipse,
-        Polygon,
         Text,
         Barcode,
     }
