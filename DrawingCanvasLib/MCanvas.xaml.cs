@@ -677,6 +677,10 @@ namespace DrawingCanvasLib
             this.Canvas.InvalidateVisual();
         }
 
+        /// <summary>
+        /// 将绘图元素居中到画布中心
+        /// </summary>
+        /// <param name="drawing"></param>
         private void CenterDrawing(BaseDrawingClass drawing)
         {
             // 获取当前路径的外接矩形
