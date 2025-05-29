@@ -65,12 +65,10 @@ namespace DrawingCanvasLib
                     foreach (var item in canvas.ArtWorkList)
                     {
                         item.IsSelected = false;
-                        item.OnDrawingCenter -= CenterDrawing;
                         if (item == tool)
                         {
                             item.IsSelected = true;
 
-                            item.OnDrawingCenter += CenterDrawing;
                             canvas.Canvas.InvalidateVisual();
                         }
                     }
@@ -172,11 +170,9 @@ namespace DrawingCanvasLib
         #region Drawing Tool Value
 
         /// <summary>
-        /// 直线
+        /// 绘图元素
         /// </summary>
-        private LineClass? _line { get; set; } = null;
-        private RectangleClass? _rect { get; set; } = null;
-        private EllipseClass? _ellipse { get; set; } = null;
+        private BaseDrawingClass? _drawing { get; set; } = null;
 
         #endregion
 
@@ -268,39 +264,10 @@ namespace DrawingCanvasLib
             BaseDrawingClass.CurrentPoint = CurPos;
             UpdateSelectedDrawing();
 
-            switch (DrawingTool)
+            if (_drawing != null)
             {
-                case ToolType.Select:
-                    {
-                        break;
-                    }
-                case ToolType.Line:
-                    {
-                        if (_line != null)
-                        {
-                            _line.EndPoint = BaseDrawingClass.CurrentPoint;
-                            this.Canvas.InvalidateVisual();
-                        }
-                        break;
-                    }
-                case ToolType.Rectangle:
-                    {
-                        if (_rect != null)
-                        {
-                            _rect.EndPoint = BaseDrawingClass.CurrentPoint;
-                            this.Canvas.InvalidateVisual();
-                        }
-                        break;
-                    }
-                case ToolType.Ellipse:
-                    {
-                        if (_ellipse != null)
-                        {
-                            _ellipse.EndPoint = BaseDrawingClass.CurrentPoint;
-                            this.Canvas.InvalidateVisual();
-                        }
-                        break;
-                    }
+                _drawing.EndPoint = BaseDrawingClass.CurrentPoint;
+                this.Canvas.InvalidateVisual();
             }
 
             #region dragging
@@ -365,25 +332,28 @@ namespace DrawingCanvasLib
                     }
                 case ToolType.Line:
                     {
-                        _line = new(BaseDrawingClass.CurrentPoint);
-                        //_line.DrawingName = "Line";
-                        ArtWorkList.Add(_line);
+                        _drawing = new LineClass(BaseDrawingClass.CurrentPoint);
                         break;
                     }
                 case ToolType.Rectangle:
                     {
-                        _rect = new(BaseDrawingClass.CurrentPoint);
-                        //_rect.DrawingName = "Rect";
-                        ArtWorkList.Add(_rect);
+                        _drawing = new RectangleClass(BaseDrawingClass.CurrentPoint);
                         break;
                     }
                 case ToolType.Ellipse:
                     {
-                        _ellipse = new(BaseDrawingClass.CurrentPoint);
-                        //_ellipse.DrawingName = "Ellipse";
-                        ArtWorkList.Add(_ellipse);
+                        _drawing = new EllipseClass(BaseDrawingClass.CurrentPoint);
                         break;
                     }
+            }
+
+            if (_drawing != null)
+            {
+                ArtWorkList.Add(_drawing);
+                _drawing.OnDrawingCenter = (msg) =>
+                {
+                    CenterDrawing(msg);
+                };
             }
 
             #region 双击事件
@@ -410,25 +380,7 @@ namespace DrawingCanvasLib
         private void Canvas_LeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Mouse.OverrideCursor = null;
-
-            switch (DrawingTool)
-            {
-                case ToolType.Line:
-                    {
-                        _line = null;
-                        break;
-                    }
-                case ToolType.Rectangle:
-                    {
-                        _rect = null;
-                        break;
-                    }
-                case ToolType.Ellipse:
-                    {
-                        _ellipse = null;
-                        break;
-                    }
-            }
+            _drawing = null;
 
             DrawingTool = ToolType.Select; // 结束绘制
         }
@@ -725,28 +677,20 @@ namespace DrawingCanvasLib
             this.Canvas.InvalidateVisual();
         }
 
-        private void CenterDrawing(object? sender, BaseDrawingClass drawing)
+        private void CenterDrawing(BaseDrawingClass drawing)
         {
             // 获取当前路径的外接矩形
             var rect = drawing.OutLinePath.TightBounds;
-            // 计算中心点
-            var centerX = (rect.Left + rect.Right) / 2;
-            var centerY = (rect.Top + rect.Bottom) / 2;
+            var drawingWidth = rect.Width;
+            var drawingHeight = rect.Height;
 
             // 控件尺寸（目标尺寸）
             var info = this.Canvas;
-            var targetWidth = info.Width;
-            var targetHeight = info.Height;
+            var targetWidth = info.ActualWidth;
+            var targetHeight = info.ActualHeight;
 
-            // 计算等比缩放
-            float scale = Math.Min((float)targetWidth / imageWidth, (float)targetHeight / imageHeight);
-
-            float scaledWidth = imageWidth * scale;
-            float scaledHeight = imageHeight * scale;
-
-            // 让图像居中
-            float x = (targetWidth - scaledWidth) / 2f;
-            float y = (targetHeight - scaledHeight) / 2f;
+            drawing.StartPoint = new SKPoint((float)(targetWidth / 2 - drawingWidth / 2), (float)(targetHeight / 2 - drawingHeight / 2));
+            drawing.EndPoint = new SKPoint((float)(targetWidth / 2 + drawingWidth / 2), (float)(targetHeight / 2 + drawingHeight / 2));
         }
     }
 }

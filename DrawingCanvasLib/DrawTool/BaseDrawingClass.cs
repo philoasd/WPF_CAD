@@ -32,7 +32,7 @@ namespace DrawingCanvasLib.DrawTool
         public LaserProperties HatchProperties { get; set; } = new LaserProperties();
 
 
-        public event EventHandler<BaseDrawingClass>? OnDrawingCenter; // 绘图中心事件
+        public Action<BaseDrawingClass>? OnDrawingCenter; // 绘图中心事件
 
         private bool _isSeleted = false;
         public bool IsSelected
@@ -290,7 +290,7 @@ namespace DrawingCanvasLib.DrawTool
             var centerY = (rect.Top + rect.Bottom) / 2;
 
             // 获取绘图所在画布的大小
-            OnDrawingCenter?.Invoke(this, this);
+            OnDrawingCenter?.Invoke(this);
         }
     }
 }
