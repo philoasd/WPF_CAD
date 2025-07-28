@@ -445,6 +445,8 @@ namespace DrawingCanvasLib
         /// <returns></returns>
         private void CheckClickPoint(SKPoint clickPoint)
         {
+            SelectedDrawing = null;
+
             foreach (var tool in ArtWorkList)
             {
                 tool.IsSelected = false;

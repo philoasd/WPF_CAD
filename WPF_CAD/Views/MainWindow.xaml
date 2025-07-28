@@ -5,11 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_CAD"
         xmlns:hc="https://handyorg.github.io/handycontrol"
-        xmlns:ViewModes="clr-namespace:WPF_CAD.ViewModes" xmlns:drawingcanvaslib="clr-namespace:DrawingCanvasLib;assembly=DrawingCanvasLib" x:Name="window" x:Class="WPF_CAD.MainWindow"
-        mc:Ignorable="d"
+        xmlns:ViewModes="clr-namespace:WPF_CAD.ViewModes" xmlns:drawingcanvaslib="clr-namespace:DrawingCanvasLib;assembly=DrawingCanvasLib"
         xmlns:vm="clr-namespace:WPF_CAD.ViewModes"
-        d:DataContext="{d:DesignInstance vm:MainWindowViewMode}"
+        xmlns:Converters="clr-namespace:WPF_CAD.Converters" x:Name="window" x:Class="WPF_CAD.MainWindow"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance {x:Type vm:MainWindowViewMode}}"
         Title="{Binding Title}" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Window.Resources>
+        <Converters:DrawingConvertToBoolean x:Key="DrawingConvertToBoolean"/>
+    </Window.Resources>
     <!--<Window.DataContext>
         <ViewModes:MainWindowViewMode/>
     </Window.DataContext>-->
@@ -115,7 +119,7 @@
                         <Button  ToolTip="import">
                             <Image Source="/ico/import_left_icon.ico"/>
                         </Button>
-                        <Button  ToolTip="Center" Command="{Binding CenterDrawingCommand}" CommandParameter="{Binding SelectedDrawing}">
+                        <Button IsEnabled="{Binding SelectedDrawing, Converter={StaticResource DrawingConvertToBoolean}}" ToolTip="Center" Command="{Binding CenterDrawingCommand}" CommandParameter="{Binding SelectedDrawing}">
                             <Image Source="/ico/9111280_cross_icon.ico"/>
                         </Button>
                     </ToolBar>
