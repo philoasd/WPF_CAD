@@ -22,10 +22,10 @@ namespace WPF_CAD.Views
     /// </summary>
     public partial class HardwareSetupWindow : Window
     {
-        private HardwareWindowViewMode? HardwareWindowViewMode => this.DataContext as HardwareWindowViewMode;
-        private MainWindowViewMode? MainWindowViewMode => this.Owner?.DataContext as MainWindowViewMode;
+        private HardwareWindowViewModel? HardwareWindowViewMode => this.DataContext as HardwareWindowViewModel;
+        private MainWindowViewModel? MainWindowViewMode => this.Owner?.DataContext as MainWindowViewModel;
 
-        public HardwareSetupWindow(HardwareWindowViewMode vm)
+        public HardwareSetupWindow(HardwareWindowViewModel vm)
         {
             InitializeComponent();
             this.DataContext = vm;

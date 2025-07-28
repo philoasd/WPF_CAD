@@ -19,9 +19,16 @@ namespace DrawingCanvasLib
         public bool IsHatch { get; set; } = false;
         public float HatchSpacing { get; set; } = 1.0f;
         public bool IsOutline { get; set; } = true;
+        #endregion
+
+        #region 字体属性
         public string DrawText { get; set; } = "TEXT";
         public float TextSize { get; set; } = 20f;
-        public SKFont Font { get; set; } = new SKFont(SKTypeface.FromFamilyName("Arial"), 20f);
+        public SKTypeface TextType { get; set; } = SKTypeface.FromFamilyName("Arial");
+        #endregion
+
+        #region Barcode属性
+
         #endregion
 
         #region Laser属性

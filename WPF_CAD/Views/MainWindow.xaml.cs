@@ -25,9 +25,9 @@ namespace WPF_CAD
     public partial class MainWindow : Window
     {
         private DispatcherTimer? CurTimer { get; set; }
-        private MainWindowViewMode? MainWindowViewMode => this.DataContext as MainWindowViewMode;
+        private MainWindowViewModel? MainWindowViewMode => this.DataContext as MainWindowViewModel;
 
-        public MainWindow(MainWindowViewMode vm)
+        public MainWindow(MainWindowViewModel vm)
         {
             InitializeComponent();
 

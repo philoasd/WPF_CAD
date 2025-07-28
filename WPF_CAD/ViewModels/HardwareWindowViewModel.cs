@@ -12,9 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace WPF_CAD.ViewModes
 {
-    public class HardwareWindowViewMode : ObservableObject
+    public class HardwareWindowViewModel : ObservableObject
     {
-        private MainWindowViewMode? MainWindowViewMode => App.ServiceProvider?.GetService<MainWindowViewMode>();
+        private MainWindowViewModel? MainWindowViewMode => App.ServiceProvider?.GetService<MainWindowViewModel>();
 
         #region Main window
 

@@ -24,10 +24,10 @@ namespace WPF_CAD.Views
     /// </summary>
     public partial class DrawingPropertiesWindow : Window
     {
-        private DrawingPropertiesWindowViewMode? DrawingPropertiesWindowViewMode => this.DataContext as DrawingPropertiesWindowViewMode;
-        private MainWindowViewMode? MainWindowViewMode => this.Owner?.DataContext as MainWindowViewMode;
+        private DrawingPropertiesWindowViewModel? DrawingPropertiesWindowViewMode => this.DataContext as DrawingPropertiesWindowViewModel;
+        private MainWindowViewModel? MainWindowViewMode => this.Owner?.DataContext as MainWindowViewModel;
 
-        public DrawingPropertiesWindow(DrawingPropertiesWindowViewMode vm)
+        public DrawingPropertiesWindow(DrawingPropertiesWindowViewModel vm)
         {
             InitializeComponent();
 

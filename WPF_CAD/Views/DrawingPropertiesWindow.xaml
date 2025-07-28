@@ -67,7 +67,35 @@
             </TabItem>
 
             <TabItem Header="Text" Visibility="{Binding IsShowTextPage}">
+                <StackPanel Orientation="Vertical">
+                    <RichTextBox Height="100">
+                        <FlowDocument>
+                            <Paragraph>
+                                <Run FontSize="15"  Text="{Binding DrawText}"/>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
 
+                    <UniformGrid Columns="2">
+                        <StackPanel Orientation="Vertical">
+                            <hc:ComboBox hc:TitleElement.Title="Font" hc:TitleElement.TitlePlacement="Left" SelectedIndex="{Binding SelectedFontIndex}">
+                                <ComboBoxItem Content="True Type"/>
+                                <ComboBoxItem Content="Vector"/>
+                                <ComboBoxItem Content="DoMatrix"/>
+                                <ComboBoxItem Content="User"/>
+                            </hc:ComboBox>
+                            <hc:ComboBox ItemsSource="{Binding AllFontType}"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical">
+
+                        </StackPanel>
+                    </UniformGrid>
+
+                    <GroupBox Header="Format" Style="{StaticResource BaseStyle}">
+                        <TextBox Text="{Binding TextFormat}"/>
+                    </GroupBox>
+                </StackPanel>
             </TabItem>
 
             <TabItem Header="Barcode" Visibility="{Binding IsShowBarcodePage}">

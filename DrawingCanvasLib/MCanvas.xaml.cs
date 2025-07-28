@@ -345,6 +345,15 @@ namespace DrawingCanvasLib
                         _drawing = new EllipseClass(BaseDrawingClass.CurrentPoint);
                         break;
                     }
+                case ToolType.Text:
+                    {
+                        _drawing = new TextClass(BaseDrawingClass.CurrentPoint);
+                        break;
+                    }
+                case ToolType.Barcode:
+                    {
+                        break;
+                    }
             }
 
             if (_drawing != null)

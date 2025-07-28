@@ -59,7 +59,7 @@ namespace WPF_CAD.Modes
         /// <param name="machineConfig"></param>
         public void SaveMachineConfig()
         {
-            var machineConfig = App.ServiceProvider?.GetService<MainWindowViewMode>()?.MachineConfig;
+            var machineConfig = App.ServiceProvider?.GetService<MainWindowViewModel>()?.MachineConfig;
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(machineConfig, Newtonsoft.Json.Formatting.Indented);
             File.WriteAllText(MachineConfigFilePath, json);
             //MsgBoxClass.ShowMsg("Machine configuration saved successfully.", MsgBoxClass.MsgBoxType.Information);

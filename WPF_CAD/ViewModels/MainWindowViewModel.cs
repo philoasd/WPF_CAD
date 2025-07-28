@@ -21,7 +21,7 @@ using WPF_Draw.DrawTool;
 
 namespace WPF_CAD.ViewModes
 {
-    public class MainWindowViewMode : ObservableObject
+    public class MainWindowViewModel : ObservableObject
     {
         private ProcessMode? ProcessMode => App.ServiceProvider?.GetRequiredService<ProcessMode>();
 
@@ -29,7 +29,7 @@ namespace WPF_CAD.ViewModes
         public event EventHandler? OnRefreshEvent;
         #endregion
 
-        public MainWindowViewMode()
+        public MainWindowViewModel()
         {
             Title = $"{_mianTitle} - {OpenFileName}";
         }

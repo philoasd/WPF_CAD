@@ -31,6 +31,9 @@ namespace DrawingCanvasLib.DrawTool
         public LaserProperties OutlineProperties { get; set; } = new LaserProperties();
         public LaserProperties HatchProperties { get; set; } = new LaserProperties();
 
+        public string DrawText { get; set; } = "Text";
+        public float TextSize { get; set; } = 20f;
+        public SKTypeface TextType { get; set; } = SKTypeface.FromFamilyName("Arial");
 
         public Action<BaseDrawingClass>? OnDrawingCenter; // 绘图中心事件
 

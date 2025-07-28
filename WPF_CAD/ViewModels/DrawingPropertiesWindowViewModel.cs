@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ using SkiaSharp;
 
 namespace WPF_CAD.ViewModes
 {
-    public class DrawingPropertiesWindowViewMode : ObservableObject
+    public class DrawingPropertiesWindowViewModel : ObservableObject
     {
         #region Flag
 
@@ -26,6 +27,12 @@ namespace WPF_CAD.ViewModes
             {
                 SetProperty(ref _selectedIndex, value);
             }
+        }
+
+        public DrawingPropertiesWindowViewModel()
+        {
+            // todo:获取系统的所有字体文件
+            AllFontType = new();
         }
 
         #endregion
@@ -86,6 +93,8 @@ namespace WPF_CAD.ViewModes
             this.HatchProperties = obj.HatchProperties;
             this.IsOutlineEnable = obj.IsOutLine;
 
+            IsShowLinePage = Visibility.Collapsed; // 开始默认不显示
+
             switch (obj.ToolType)
             {
                 case ToolType.Line:
@@ -103,6 +112,21 @@ namespace WPF_CAD.ViewModes
                     {
                         IsShowFormatPage = Visibility.Visible;
                         SelectedIndex = 5;
+
+                        // 当前选中路径的外接矩形大小
+                        var rect = obj.OutLinePath.TightBounds;
+                        this.FormatWidth = rect.Width;
+                        this.FormatHeight = rect.Height;
+                        this.FormatCenterX = rect.MidX;
+                        this.FormatCenterY = rect.MidY;
+
+                        UpdateHatchWindowValue(obj);
+                        break;
+                    }
+                case ToolType.Text:
+                    {
+                        IsShowTextPage = Visibility.Visible;
+                        SelectedIndex = 2;
 
                         // 当前选中路径的外接矩形大小
                         var rect = obj.OutLinePath.TightBounds;
@@ -137,6 +161,7 @@ namespace WPF_CAD.ViewModes
                         break;
                     }
                 case ToolType.Rectangle:
+                case ToolType.Text:
                     {
                         var newStartPoint = new SKPoint((float)(this.FormatCenterX + this.FormatRelativeMoveX) - (float)this.FormatWidth / 2, (float)(this.FormatCenterY + this.FormatRelativeMoveY) - (float)this.FormatHeight / 2);
                         var newEndPoint = new SKPoint((float)(this.FormatCenterX + this.FormatRelativeMoveX) + (float)this.FormatWidth / 2, (float)(this.FormatCenterY + this.FormatRelativeMoveY) + (float)this.FormatHeight / 2);
@@ -221,12 +246,8 @@ namespace WPF_CAD.ViewModes
                 SetProperty(ref _isShowDataPage, value);
                 if (value == Visibility.Visible)
                 {
-                    //IsShowLinePage = Visibility.Collapsed;
-                    //IsShowTextPage = Visibility.Collapsed;
-                    //IsShowBarcodePage = Visibility.Collapsed;
-                    //IsShowSerializePage = Visibility.Collapsed;
-                    //IsShowFormatPage = Visibility.Collapsed;
-                    //IsShowHatchPage = Visibility.Collapsed;
+                    IsShowSerializePage = Visibility.Visible;
+                    IsShowFormatPage = Visibility.Visible;
                 }
             }
         }
@@ -244,14 +265,41 @@ namespace WPF_CAD.ViewModes
                 SetProperty(ref _isShowTextPage, value);
                 if (value == Visibility.Visible)
                 {
-                    IsShowDataPage = Visibility.Visible;
-                    IsShowLinePage = Visibility.Collapsed;
-                    IsShowBarcodePage = Visibility.Collapsed;
                     IsShowSerializePage = Visibility.Visible;
                     IsShowFormatPage = Visibility.Visible;
-                    IsShowHatchPage = Visibility.Visible;
                 }
             }
+        }
+
+        private string _drawText = "TEXT";
+        public string DrawText
+        {
+            get => _drawText;
+            set
+            {
+                SetProperty(ref _drawText, value);
+            }
+        }
+
+        private int _selectedFontIndex = 0;
+        public int SelectedFontIndex
+        {
+            get => _selectedFontIndex;
+            set => SetProperty(ref _selectedFontIndex, value);
+        }
+
+        private ObservableCollection<string> _AllFontType = new();
+        public ObservableCollection<string> AllFontType
+        {
+            get => _AllFontType;
+            set => SetProperty(ref _AllFontType, value);
+        }
+
+        private string _TextFormat = "#0#";
+        public string TextFormat
+        {
+            get => _TextFormat;
+            set => SetProperty(ref _TextFormat, value);
         }
 
         #endregion
@@ -267,12 +315,6 @@ namespace WPF_CAD.ViewModes
                 SetProperty(ref _isShowBarcodePage, value);
                 if (value == Visibility.Visible)
                 {
-                    IsShowDataPage = Visibility.Visible;
-                    IsShowTextPage = Visibility.Collapsed;
-                    IsShowLinePage = Visibility.Collapsed;
-                    IsShowSerializePage = Visibility.Visible;
-                    IsShowFormatPage = Visibility.Visible;
-                    IsShowHatchPage = Visibility.Visible;
                 }
             }
         }
@@ -289,12 +331,6 @@ namespace WPF_CAD.ViewModes
                 SetProperty(ref _isShowSerializePage, value);
                 if (value == Visibility.Visible)
                 {
-                    //IsShowDataPage = Visibility.Collapsed;
-                    //IsShowTextPage = Visibility.Collapsed;
-                    //IsShowBarcodePage = Visibility.Collapsed;
-                    //IsShowLinePage = Visibility.Collapsed;
-                    //IsShowFormatPage = Visibility.Collapsed;
-                    //IsShowHatchPage = Visibility.Collapsed;
                 }
             }
         }
