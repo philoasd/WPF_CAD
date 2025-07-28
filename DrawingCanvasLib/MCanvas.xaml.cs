@@ -359,9 +359,9 @@ namespace DrawingCanvasLib
             if (_drawing != null)
             {
                 ArtWorkList.Add(_drawing);
-                _drawing.OnDrawingCenter = (msg) =>
+                _drawing.OnDrawingCenter = (drawing) =>
                 {
-                    CenterDrawing(msg);
+                    CenterDrawing(drawing);
                 };
             }
 
